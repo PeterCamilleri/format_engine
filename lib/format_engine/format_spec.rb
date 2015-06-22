@@ -29,17 +29,23 @@ module FormatEngine
     # Don't use new, use get_spec instead.
     private_class_method :new
 
+    # Either get a format specification from the pool or create one.
     def self.get_spec(fmt_string)
       @spec_pool[fmt_string] ||= new(fmt_string)
     end
 
+    # The array of specifications that were extracted.
     attr_reader :spec
 
+    # Set up an instance of a format specification
     def initialize(fmt_string)
       @spec = []
       scan_spec(fmt_string, @spec)
     end
 
+    # Scan the format string extracting literals and variables.
+    #<br>Endemic Code Smells
+    #* :reek:UtilityFunction  :reek:FeatureEnvy
     def scan_spec(fmt_string, spec_array)
       until fmt_string == ""
         if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|]*(\d+(\.\d+)?)?[a-zA-Z]/
