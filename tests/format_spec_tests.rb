@@ -60,6 +60,41 @@ class FormatSpecTester < Minitest::Test
     assert_equal("456", test.spec[0].parms[1])
   end
 
+  def test_multipart_formats
+    test = FormatEngine::FormatSpec.get_spec "T(%+02A:%3B:%4.1C)"
+
+    assert_equal(Array, test.spec.class)
+    assert_equal(7, test.spec.length)
+
+    assert_equal(FormatEngine::FormatLiteral, test.spec[0].class)
+    assert_equal("T(", test.spec[0].literal)
+
+    assert_equal(FormatEngine::FormatVariable, test.spec[1].class)
+    assert_equal("%+A", test.spec[1].format)
+    assert_equal(1, test.spec[1].parms.length)
+    assert_equal("02", test.spec[1].parms[0])
+
+    assert_equal(FormatEngine::FormatLiteral, test.spec[2].class)
+    assert_equal(":", test.spec[2].literal)
+
+    assert_equal(FormatEngine::FormatVariable, test.spec[3].class)
+    assert_equal("%B", test.spec[3].format)
+    assert_equal(1, test.spec[3].parms.length)
+    assert_equal("3", test.spec[3].parms[0])
+
+    assert_equal(FormatEngine::FormatLiteral, test.spec[4].class)
+    assert_equal(":", test.spec[4].literal)
+
+    assert_equal(FormatEngine::FormatVariable, test.spec[5].class)
+    assert_equal("%C", test.spec[5].format)
+    assert_equal(2, test.spec[5].parms.length)
+    assert_equal("4", test.spec[5].parms[0])
+    assert_equal("1", test.spec[5].parms[1])
+
+    assert_equal(FormatEngine::FormatLiteral, test.spec[6].class)
+    assert_equal(")", test.spec[6].literal)
+  end
+
   def test_that_it_caches
     t1 = FormatEngine::FormatSpec.get_spec "%123.456A"
     t2 = FormatEngine::FormatSpec.get_spec "%123.456A"
