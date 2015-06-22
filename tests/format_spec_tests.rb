@@ -26,7 +26,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_option_variable_formats
-    "~@#&^&*-+=?_<>\\/.,|" .each_char do |char|
+    "~@#&^&*-+=?_<>\\/.,|".each_char do |char|
       test = FormatEngine::FormatSpec.get_spec "%#{char}A"
       assert_equal(Array, test.spec.class)
       assert_equal(1, test.spec.length)
@@ -58,6 +58,18 @@ class FormatSpecTester < Minitest::Test
     assert_equal(2, test.spec[0].parms.length)
     assert_equal("123", test.spec[0].parms[0])
     assert_equal("456", test.spec[0].parms[1])
+  end
+
+  def test_that_it_caches
+    t1 = FormatEngine::FormatSpec.get_spec "%123.456A"
+    t2 = FormatEngine::FormatSpec.get_spec "%123.456A"
+    assert(t1.object_id == t2.object_id)
+
+    t3 = FormatEngine::FormatSpec.get_spec "%123.457A"
+    assert(t1.object_id != t3.object_id)
+
+    t4 = FormatEngine::FormatSpec.get_spec "%123.457A"
+    assert(t4.object_id == t3.object_id)
   end
 
 end
