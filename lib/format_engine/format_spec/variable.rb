@@ -26,6 +26,12 @@ module FormatEngine
       end
     end
 
+    # Is this variable supported by the engine?
+    def validate(engine)
+      fail "Unsupported tag = #{format.inspect}" unless engine[format]
+      true
+    end
+
     # Inspect for debugging.
     def inspect
       "Variable(#{format.inspect}, #{parms.inspect})"
