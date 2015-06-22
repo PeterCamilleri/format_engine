@@ -11,6 +11,11 @@ module FormatEngine
       @literal = literal
     end
 
+    # Is this literal supported by the engine? YES!
+    def validate(_engine)
+      true
+    end
+
     # Inspect for debugging.
     def inspect
       "Literal(#{literal.inspect})"
