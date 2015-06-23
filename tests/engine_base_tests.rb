@@ -21,12 +21,10 @@ class EngineBaseTester < Minitest::Test
   end
 
   def test_that_it_has_a_library
-    test = FormatEngine::Base.new
+    assert_equal(nil, FormatEngine::Base["%A"])
 
-    assert_equal(nil, test["%A"])
-
-    test["%A"] = 42
-    assert_equal(42, test["%A"])
+    FormatEngine::Base["%A"] = 42
+    assert_equal(42, FormatEngine::Base["%A"])
   end
 
   def test_that_it_is_not_valid

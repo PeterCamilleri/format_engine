@@ -18,13 +18,13 @@ module FormatEngine
     end
 
     # Get an entry from the library
-    def [](index)
+    def self.[](index)
       @lib ||= {}
       @lib[index]
     end
 
     # Add an entry to the library
-    def []=(index, value)
+    def self.[]=(index, value)
       @lib ||= {}
       @lib[index] = value
     end
