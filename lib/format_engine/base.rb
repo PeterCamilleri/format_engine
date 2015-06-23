@@ -12,9 +12,21 @@ module FormatEngine
       true
     end
 
-    #What type of engine is this? Abstract, error
+    # What type of engine is this? Abstract, error
     def engine_type
       fail "Error: Cannot directly use the abstract Base engine."
+    end
+
+    # Get an entry from the library
+    def [](index)
+      @lib ||= {}
+      @lib[index]
+    end
+
+    # Add an entry to the library
+    def []=(index, value)
+      @lib ||= {}
+      @lib[index] = value
     end
 
   end
