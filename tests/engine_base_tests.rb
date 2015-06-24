@@ -30,10 +30,6 @@ class EngineBaseTester < Minitest::Test
   def test_that_it_is_not_valid
     test = FormatEngine::Base.new
 
-    assert_raises(RuntimeError) { test.validate(:fubar) }
-    assert_raises(RuntimeError) { test.validate(:formatter) }
-    assert_raises(RuntimeError) { test.validate(:parser) }
-
     assert_raises(RuntimeError) { test.engine_type }
   end
 

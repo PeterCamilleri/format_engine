@@ -13,7 +13,7 @@ module FormatEngine
 
     # Is this literal supported by the engine? YES!
     def validate(_engine)
-      true
+      self
     end
 
     # Inspect for debugging.

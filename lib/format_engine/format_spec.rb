@@ -54,5 +54,11 @@ module FormatEngine
       end
     end
 
+    # Validate the specs of this format against the engine.
+    def validate(engine)
+      spec.each {|item| item.validate(engine)}
+      self
+    end
+
   end
 end

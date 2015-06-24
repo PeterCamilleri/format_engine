@@ -12,7 +12,7 @@ class VariableSpecTester < Minitest::Test
     engine = { "%A" => true }
 
     test = FormatEngine::FormatVariable.new("%A")
-    assert(test.validate(engine))
+    assert_equal(test, test.validate(engine))
 
     test = FormatEngine::FormatVariable.new("%B")
     assert_raises(RuntimeError) { test.validate(engine) }

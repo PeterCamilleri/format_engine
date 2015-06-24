@@ -10,7 +10,7 @@ class LiteralSpecTester < Minitest::Test
 
   def test_that_it_validates_always
     test = FormatEngine::FormatLiteral.new("Test 1 2 3")
-    assert(test.validate(nil))
+    assert_equal(test, test.validate(nil))
   end
 
 end

@@ -6,15 +6,9 @@ module FormatEngine
     # The data state for the formatting/parsing process.
     attr_accessor :data
 
-    # Is this the correct engine type?
-    def validate(engine_type)
-      fail "Error: Invalid Engine Type" unless engine_type == self.engine_type
-      true
-    end
-
     # What type of engine is this? Abstract, error
     def engine_type
-      fail "Error: Cannot directly use the abstract Base engine."
+      fail "Error: Cannot directly use the FormatEngine::Base class."
     end
 
     # Get an entry from the library
