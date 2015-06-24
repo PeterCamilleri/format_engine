@@ -21,7 +21,23 @@ Or install it yourself as:
 
 ## Usage
 
-Work In Progress
+```ruby
+require 'format_engine'
+
+#Work In Progress
+
+```
+
+## Philosophy
+
+When designing this gem, a concerted effort has been applied to keeping it as
+simple as possible. To this end, many subtle programming techniques have been
+avoided in favor of simpler, more obvious approaches. This is based on the
+observation that I don't trust code that I don't understand and I avoid code
+I don't trust.
+
+Feedback on the convenience/clarity balance as well as any other topics are
+most welcomed.
 
 ## Contributing
 
