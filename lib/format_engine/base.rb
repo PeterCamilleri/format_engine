@@ -6,20 +6,24 @@ module FormatEngine
     # The data state for the formatting/parsing process.
     attr_accessor :data
 
+    #Set up base data structures.
+    def initialize
+      @data = nil
+      @lib = {}
+    end
+
     # What type of engine is this? Abstract, error
     def engine_type
       fail "Error: Cannot directly use the FormatEngine::Base class."
     end
 
     # Get an entry from the library
-    def self.[](index)
-      @lib ||= {}
+    def [](index)
       @lib[index]
     end
 
     # Add an entry to the library
-    def self.[]=(index, value)
-      @lib ||= {}
+    def []=(index, value)
       @lib[index] = value
     end
 
