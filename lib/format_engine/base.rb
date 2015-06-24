@@ -7,24 +7,17 @@ module FormatEngine
     attr_accessor :data
 
     #Set up base data structures.
-    def initialize
-      @data = nil
-      @lib = {}
-    end
+    def initialize(library)
+      @lib = library
 
-    # What type of engine is this? Abstract, error
-    def engine_type
-      fail "Error: Cannot directly use the FormatEngine::Base class."
+      #Set up defaults for pre and post amble blocks.
+      @lib[:before] = lambda {|*_args| } unless @lib[:before]
+      @lib[:after]  = lambda {|*_args| } unless @lib[:after]
     end
 
     # Get an entry from the library
     def [](index)
       @lib[index]
-    end
-
-    # Add an entry to the library
-    def []=(index, value)
-      @lib[index] = value
     end
 
   end
