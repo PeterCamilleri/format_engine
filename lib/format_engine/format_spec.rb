@@ -38,7 +38,7 @@ module FormatEngine
     #<br>Endemic Code Smells
     #* :reek:UtilityFunction  :reek:FeatureEnvy
     def scan_spec(fmt_string, spec_array)
-      until fmt_string == ""
+      until fmt_string.empty?
         if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|]*(\d+(\.\d+)?)?[a-zA-Z]/
           spec_array << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
           spec_array << FormatVariable.new($MATCH)
