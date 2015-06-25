@@ -32,6 +32,21 @@ module FormatEngine
       self
     end
 
+    # Get the width parameter.
+    def width
+      parms ? parms[0].to_i : 0
+    end
+
+    # Get the precision parameter.
+    def prec
+      (parms && parms.length > 1) ? parms[1].to_i : 0
+    end
+
+    # Format onto the output string
+    def do_format(engine)
+      engine << engine[self.format].call(engine.src, self)
+    end
+
     # Inspect for debugging.
     def inspect
       "Variable(#{format.inspect}, #{parms.inspect})"

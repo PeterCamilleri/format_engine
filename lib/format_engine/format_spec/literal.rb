@@ -16,6 +16,11 @@ module FormatEngine
       self
     end
 
+    # Format onto the output string
+    def do_format(engine)
+      engine << @literal
+    end
+
     # Inspect for debugging.
     def inspect
       "Literal(#{literal.inspect})"

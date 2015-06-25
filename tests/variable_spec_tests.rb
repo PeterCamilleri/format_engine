@@ -18,4 +18,17 @@ class VariableSpecTester < Minitest::Test
     assert_raises(RuntimeError) { test.validate(engine) }
   end
 
+  def test_the_parms
+    test = FormatEngine::FormatVariable.new("%B")
+    assert_equal(0, test.width)
+    assert_equal(0, test.prec)
+
+    test = FormatEngine::FormatVariable.new("%10B")
+    assert_equal(10, test.width)
+    assert_equal(0, test.prec)
+
+    test = FormatEngine::FormatVariable.new("%10.5B")
+    assert_equal(10, test.width)
+    assert_equal(5, test.prec)
+  end
 end

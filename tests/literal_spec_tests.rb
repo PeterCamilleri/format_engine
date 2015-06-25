@@ -13,4 +13,11 @@ class LiteralSpecTester < Minitest::Test
     assert_equal(test, test.validate(nil))
   end
 
+  def test_that_it_formats
+    engine = FormatEngine::Formatter.new({})
+    test = FormatEngine::FormatLiteral.new("Test 1 2 3")
+
+    test.do_format(engine)
+    assert_equal("Test 1 2 3", engine.dst)
+  end
 end
