@@ -2,7 +2,6 @@ require_relative 'format_spec/literal'
 require_relative 'format_spec/variable'
 
 # Format String Specification Syntax (BNF):
-#
 # spec = { text | item }+
 # item = "%" {flag}* {parm {"." parm}?}? {command}
 # flag = { "~" | "@" | "#" | "&" | "^"  |
@@ -11,21 +10,18 @@ require_relative 'format_spec/variable'
 #          "/" | "." | "," | "|" }
 # parm = { "0" .. "9" }+
 # command = { "a" .. "z" | "A" .. "Z" }
-
 # Sample: x = FormatSpec.get_spec "Elapsed = %*03.1H:%M:%S!"
 
 module FormatEngine
 
   #The format string parser.
   class FormatSpec
-
-    @spec_pool = {}
-
     # Don't use new, use get_spec instead.
     private_class_method :new
 
     # Either get a format specification from the pool or create one.
     def self.get_spec(fmt_string)
+      @spec_pool ||= {}
       @spec_pool[fmt_string] ||= new(fmt_string)
     end
 

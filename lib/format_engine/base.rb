@@ -11,8 +11,8 @@ module FormatEngine
       @lib = library
 
       #Set up defaults for pre and post amble blocks.
-      @lib[:before] = lambda {|*_args| } unless @lib[:before]
-      @lib[:after]  = lambda {|*_args| } unless @lib[:after]
+      @lib[:before] ||= lambda {|*_args| }
+      @lib[:after]  ||= lambda {|*_args| }
     end
 
     # Get an entry from the library
