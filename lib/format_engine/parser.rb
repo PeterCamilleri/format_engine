@@ -1,7 +1,7 @@
 module FormatEngine
 
   # The concrete class for the Formatter.
-  class Formatter < Base
+  class Parser < Base
 
     # Do the actual work of building the formatted output.
     #<br>Parameters
