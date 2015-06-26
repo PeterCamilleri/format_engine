@@ -43,8 +43,9 @@ module FormatEngine
     end
 
     # Format onto the output string
-    def do_format(engine)
-      engine << engine[self.format].call(engine.src, self)
+    def do_format(spec_info)
+      spec_info.fmt = self
+      spec_info.instance_exec(&spec_info.engine[self.format])
     end
 
     # Inspect for debugging.

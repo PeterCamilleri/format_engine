@@ -19,14 +19,14 @@ class FormatterTester < Minitest::Test
 
   def make_formatter
     FormatEngine::Formatter.new(
-      "%f"  => lambda {|src, fmt| src.first_name.ljust(fmt.width) },
-      "%-f" => lambda {|src, fmt| src.first_name.rjust(fmt.width) },
-      "%F"  => lambda {|src, fmt| src.first_name.upcase.ljust(fmt.width) },
-      "%-F" => lambda {|src, fmt| src.first_name.upcase.rjust(fmt.width) },
-      "%l"  => lambda {|src, fmt| src.last_name.ljust(fmt.width)},
-      "%-l" => lambda {|src, fmt| src.last_name.rjust(fmt.width)},
-      "%L"  => lambda {|src, fmt| src.last_name.upcase.ljust(fmt.width) },
-      "%-L" => lambda {|src, fmt| src.last_name.upcase.rjust(fmt.width) })
+      "%f"  => lambda {dst << src.first_name.ljust(fmt.width) },
+      "%-f" => lambda {dst << src.first_name.rjust(fmt.width) },
+      "%F"  => lambda {dst << src.first_name.upcase.ljust(fmt.width) },
+      "%-F" => lambda {dst << src.first_name.upcase.rjust(fmt.width) },
+      "%l"  => lambda {dst << src.last_name.ljust(fmt.width)},
+      "%-l" => lambda {dst << src.last_name.rjust(fmt.width)},
+      "%L"  => lambda {dst << src.last_name.upcase.ljust(fmt.width) },
+      "%-L" => lambda {dst << src.last_name.upcase.rjust(fmt.width) })
   end
 
   def make_person
@@ -63,8 +63,8 @@ class FormatterTester < Minitest::Test
 
   def test_that_it_calls_before_and_after
     engine = FormatEngine::Formatter.new(
-      :before => lambda {|src, fmt| "((" },
-      :after  => lambda {|src, fmt| "))" })
+      :before => lambda {dst << "((" },
+      :after  => lambda {dst << "))" })
 
     spec = FormatEngine::FormatSpec.get_spec "Test"
     assert_equal("((Test))", engine.do_format(nil, spec))

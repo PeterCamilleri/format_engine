@@ -26,25 +26,23 @@ module FormatEngine
     end
 
     # The array of specifications that were extracted.
-    attr_reader :spec
+    attr_reader :specs
 
     # Set up an instance of a format specification
     def initialize(fmt_string)
-      @spec = []
-      scan_spec(fmt_string, @spec)
+      @specs = []
+      scan_spec(fmt_string)
     end
 
     # Scan the format string extracting literals and variables.
-    #<br>Endemic Code Smells
-    #* :reek:UtilityFunction  :reek:FeatureEnvy
-    def scan_spec(fmt_string, spec_array)
+    def scan_spec(fmt_string)
       until fmt_string.empty?
         if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|]*(\d+(\.\d+)?)?[a-zA-Z]/
-          spec_array << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
-          spec_array << FormatVariable.new($MATCH)
+          @specs << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
+          @specs << FormatVariable.new($MATCH)
           fmt_string  =  $POSTMATCH
         else
-          spec_array << FormatLiteral.new(fmt_string)
+          @specs << FormatLiteral.new(fmt_string)
           fmt_string = ""
         end
       end
@@ -52,7 +50,7 @@ module FormatEngine
 
     # Validate the specs of this format against the engine.
     def validate(engine)
-      spec.each {|item| item.validate(engine)}
+      specs.each {|item| item.validate(engine)}
       self
     end
 

@@ -17,8 +17,8 @@ module FormatEngine
     end
 
     # Format onto the output string
-    def do_format(engine)
-      engine << @literal
+    def do_format(spec_info)
+      spec_info.dst << @literal
     end
 
     # Inspect for debugging.

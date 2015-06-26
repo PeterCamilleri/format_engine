@@ -10,89 +10,89 @@ class FormatSpecTester < Minitest::Test
 
   def test_that_it_scans_literal_formats
     test = FormatEngine::FormatSpec.get_spec "ABCDEFG!"
-    assert_equal(Array, test.spec.class)
-    assert_equal(1, test.spec.length)
-    assert_equal(FormatEngine::FormatLiteral, test.spec[0].class)
-    assert_equal("ABCDEFG!", test.spec[0].literal)
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[0].class)
+    assert_equal("ABCDEFG!", test.specs[0].literal)
   end
 
   def test_that_it_scans_simple_variable_formats
     test = FormatEngine::FormatSpec.get_spec "%A"
-    assert_equal(Array, test.spec.class)
-    assert_equal(1, test.spec.length)
-    assert_equal(FormatEngine::FormatVariable, test.spec[0].class)
-    assert_equal("%A", test.spec[0].format)
-    assert_equal(nil, test.spec[0].parms)
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+    assert_equal("%A", test.specs[0].format)
+    assert_equal(nil, test.specs[0].parms)
   end
 
   def test_that_it_scans_option_variable_formats
     "~@#&^&*-+=?_<>\\/.,|".each_char do |char|
       test = FormatEngine::FormatSpec.get_spec "%#{char}A"
-      assert_equal(Array, test.spec.class)
-      assert_equal(1, test.spec.length)
-      assert_equal(FormatEngine::FormatVariable, test.spec[0].class)
-      assert_equal("%#{char}A", test.spec[0].format)
+      assert_equal(Array, test.specs.class)
+      assert_equal(1, test.specs.length)
+      assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+      assert_equal("%#{char}A", test.specs[0].format)
     end
   end
 
   def test_that_it_scans_single_variable_formats
     test = FormatEngine::FormatSpec.get_spec "%123A"
-    assert_equal(Array, test.spec.class)
-    assert_equal(1, test.spec.length)
-    assert_equal(FormatEngine::FormatVariable, test.spec[0].class)
-    assert_equal("%A", test.spec[0].format)
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+    assert_equal("%A", test.specs[0].format)
 
-    assert_equal(Array, test.spec[0].parms.class)
-    assert_equal(1, test.spec[0].parms.length)
-    assert_equal("123", test.spec[0].parms[0])
+    assert_equal(Array, test.specs[0].parms.class)
+    assert_equal(1, test.specs[0].parms.length)
+    assert_equal("123", test.specs[0].parms[0])
   end
 
   def test_that_it_scans_double_variable_formats
     test = FormatEngine::FormatSpec.get_spec "%123.456A"
-    assert_equal(Array, test.spec.class)
-    assert_equal(1, test.spec.length)
-    assert_equal(FormatEngine::FormatVariable, test.spec[0].class)
-    assert_equal("%A", test.spec[0].format)
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+    assert_equal("%A", test.specs[0].format)
 
-    assert_equal(Array, test.spec[0].parms.class)
-    assert_equal(2, test.spec[0].parms.length)
-    assert_equal("123", test.spec[0].parms[0])
-    assert_equal("456", test.spec[0].parms[1])
+    assert_equal(Array, test.specs[0].parms.class)
+    assert_equal(2, test.specs[0].parms.length)
+    assert_equal("123", test.specs[0].parms[0])
+    assert_equal("456", test.specs[0].parms[1])
   end
 
   def test_multipart_formats
     test = FormatEngine::FormatSpec.get_spec "T(%+02A:%3B:%4.1C)"
 
-    assert_equal(Array, test.spec.class)
-    assert_equal(7, test.spec.length)
+    assert_equal(Array, test.specs.class)
+    assert_equal(7, test.specs.length)
 
-    assert_equal(FormatEngine::FormatLiteral, test.spec[0].class)
-    assert_equal("T(", test.spec[0].literal)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[0].class)
+    assert_equal("T(", test.specs[0].literal)
 
-    assert_equal(FormatEngine::FormatVariable, test.spec[1].class)
-    assert_equal("%+A", test.spec[1].format)
-    assert_equal(1, test.spec[1].parms.length)
-    assert_equal("02", test.spec[1].parms[0])
+    assert_equal(FormatEngine::FormatVariable, test.specs[1].class)
+    assert_equal("%+A", test.specs[1].format)
+    assert_equal(1, test.specs[1].parms.length)
+    assert_equal("02", test.specs[1].parms[0])
 
-    assert_equal(FormatEngine::FormatLiteral, test.spec[2].class)
-    assert_equal(":", test.spec[2].literal)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[2].class)
+    assert_equal(":", test.specs[2].literal)
 
-    assert_equal(FormatEngine::FormatVariable, test.spec[3].class)
-    assert_equal("%B", test.spec[3].format)
-    assert_equal(1, test.spec[3].parms.length)
-    assert_equal("3", test.spec[3].parms[0])
+    assert_equal(FormatEngine::FormatVariable, test.specs[3].class)
+    assert_equal("%B", test.specs[3].format)
+    assert_equal(1, test.specs[3].parms.length)
+    assert_equal("3", test.specs[3].parms[0])
 
-    assert_equal(FormatEngine::FormatLiteral, test.spec[4].class)
-    assert_equal(":", test.spec[4].literal)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[4].class)
+    assert_equal(":", test.specs[4].literal)
 
-    assert_equal(FormatEngine::FormatVariable, test.spec[5].class)
-    assert_equal("%C", test.spec[5].format)
-    assert_equal(2, test.spec[5].parms.length)
-    assert_equal("4", test.spec[5].parms[0])
-    assert_equal("1", test.spec[5].parms[1])
+    assert_equal(FormatEngine::FormatVariable, test.specs[5].class)
+    assert_equal("%C", test.specs[5].format)
+    assert_equal(2, test.specs[5].parms.length)
+    assert_equal("4", test.specs[5].parms[0])
+    assert_equal("1", test.specs[5].parms[1])
 
-    assert_equal(FormatEngine::FormatLiteral, test.spec[6].class)
-    assert_equal(")", test.spec[6].literal)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[6].class)
+    assert_equal(")", test.specs[6].literal)
   end
 
   def test_that_it_validates
