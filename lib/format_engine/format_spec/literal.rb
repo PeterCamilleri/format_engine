@@ -21,6 +21,11 @@ module FormatEngine
       spec_info.dst << @literal
     end
 
+    # Parse from the input string
+    def do_parse(spec_info)
+      spec_info.parse!(literal)
+    end
+
     # Inspect for debugging.
     def inspect
       "Literal(#{literal.inspect})"

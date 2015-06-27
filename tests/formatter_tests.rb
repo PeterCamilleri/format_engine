@@ -12,14 +12,14 @@ class FormatterTester < Minitest::Test
 
   def make_formatter
     FormatEngine::Formatter.new(
-      "%f"  => lambda {dst << src.first_name.ljust(fmt.width) },
-      "%-f" => lambda {dst << src.first_name.rjust(fmt.width) },
-      "%F"  => lambda {dst << src.first_name.upcase.ljust(fmt.width) },
-      "%-F" => lambda {dst << src.first_name.upcase.rjust(fmt.width) },
-      "%l"  => lambda {dst << src.last_name.ljust(fmt.width)},
-      "%-l" => lambda {dst << src.last_name.rjust(fmt.width)},
-      "%L"  => lambda {dst << src.last_name.upcase.ljust(fmt.width) },
-      "%-L" => lambda {dst << src.last_name.upcase.rjust(fmt.width) })
+      "%f"  => lambda {cat src.first_name.ljust(fmt.width) },
+      "%-f" => lambda {cat src.first_name.rjust(fmt.width) },
+      "%F"  => lambda {cat src.first_name.upcase.ljust(fmt.width) },
+      "%-F" => lambda {cat src.first_name.upcase.rjust(fmt.width) },
+      "%l"  => lambda {cat src.last_name.ljust(fmt.width)},
+      "%-l" => lambda {cat src.last_name.rjust(fmt.width)},
+      "%L"  => lambda {cat src.last_name.upcase.ljust(fmt.width) },
+      "%-L" => lambda {cat src.last_name.upcase.rjust(fmt.width) })
   end
 
   def make_person

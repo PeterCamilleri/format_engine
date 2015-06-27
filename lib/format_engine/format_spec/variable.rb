@@ -48,6 +48,12 @@ module FormatEngine
       spec_info.instance_exec(&spec_info.engine[self.format])
     end
 
+    # Parse from the input string
+    def do_parse(spec_info)
+      spec_info.fmt = self
+      spec_info.instance_exec(&spec_info.engine[self.format])
+    end
+
     # Inspect for debugging.
     def inspect
       "Variable(#{format.inspect}, #{parms.inspect})"

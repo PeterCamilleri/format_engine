@@ -7,13 +7,13 @@ module FormatEngine
     #<br>Parameters
     #* src - The source object being formatted.
     #* format_spec - The format specification.
-    def do_format(src, dst, format_spec)
+    def do_parse(src, dst, format_spec)
       spec_info = SpecInfo.new(src, dst, nil, self, {})
 
       spec_info.instance_exec(&self[:before])
 
       format_spec.validate(self).specs.each do |fmt|
-        fmt.do_format(spec_info)
+        fmt.do_parse(spec_info)
       end
 
       spec_info.instance_exec(&self[:after])
