@@ -7,7 +7,7 @@ require_relative 'format_spec/variable'
 #  flag = { "~" | "@" | "#" | "&" | "^"  |
 #           "&" | "*" | "-" | "+" | "="  |
 #           "?" | "_" | "<" | ">" | "\\" |
-#           "/" | "." | "," | "|" }
+#           "/" | "." | "," | "|" | "!"  }
 #  parm = { "0" .. "9" }+
 #  command = { "a" .. "z" | "A" .. "Z" }
 #  Sample: x = FormatSpec.get_spec "Elapsed = %*03.1H:%M:%S!"
@@ -37,7 +37,7 @@ module FormatEngine
     # Scan the format string extracting literals and variables.
     def scan_spec(fmt_string)
       until fmt_string.empty?
-        if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|]*(\d+(\.\d+)?)?[a-zA-Z]/
+        if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|!]*(\d+(\.\d+)?)?[a-zA-Z]/
           @specs << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
           @specs << FormatVariable.new($MATCH)
           fmt_string  =  $POSTMATCH
