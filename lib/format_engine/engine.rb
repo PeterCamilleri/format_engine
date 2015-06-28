@@ -18,7 +18,7 @@ module FormatEngine
       @lib[index]
     end
 
-    # Do the actual work of building the formatted output.
+    #Do the actual work of building the formatted output.
     #<br>Parameters
     #* src - The source object being formatted.
     #* format_spec - The format specification.
@@ -26,7 +26,7 @@ module FormatEngine
       due_process(src, "", format_spec, :do_format)
     end
 
-    # Do the actual work of parsing the formatted input.
+    #Do the actual work of parsing the formatted input.
     #<br>Parameters
     #* src - The source string being parsed.
     #* dst - The class of the object being created.
@@ -35,7 +35,7 @@ module FormatEngine
       due_process(*args, :do_parse)
     end
 
-    # Do the actual work of parsing the formatted input.
+    #Do the actual work of parsing the formatted input.
     #<br>Parameters
     #* src - The input to the process.
     #* dst - The output of the process.
