@@ -12,7 +12,7 @@ class ParserTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   def make_parser
-    FormatEngine::Parser.new(
+    FormatEngine::Engine.new(
       "%f"    => lambda { hsh[:fn] = found if parse(/(\w)+/ ) },
       "%F"    => lambda { hsh[:fn] = found.upcase if parse(/(\w)+/) },
       "%-F"   => lambda { hsh[:fn] = found.capitalize if parse(/(\w)+/) },

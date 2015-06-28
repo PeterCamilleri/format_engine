@@ -12,7 +12,7 @@ class FormatterTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   def make_formatter
-    FormatEngine::Formatter.new(
+    FormatEngine::Engine.new(
       "%f"  => lambda {cat src.first_name.ljust(fmt.width) },
       "%-f" => lambda {cat src.first_name.rjust(fmt.width) },
       "%F"  => lambda {cat src.first_name.upcase.ljust(fmt.width) },
@@ -56,7 +56,7 @@ class FormatterTester < Minitest::Test
   end
 
   def test_that_it_calls_before_and_after
-    engine = FormatEngine::Formatter.new(
+    engine = FormatEngine::Engine.new(
       :before => lambda {dst << "((" },
       :after  => lambda {dst << "))" })
 

@@ -9,7 +9,7 @@ class EngineBaseTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   def test_that_it_has_a_library
-    test = FormatEngine::Base.new({"%A" => 42})
+    test = FormatEngine::Engine.new({"%A" => 42})
 
     assert_equal(42, test["%A"])
     assert_equal(nil, test["%B"])
