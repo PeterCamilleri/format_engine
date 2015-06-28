@@ -37,22 +37,22 @@ class FormatterTester < Minitest::Test
 
   def test_that_it_can_format_normally
     engine, obj, spec = make_all("Name = %f %l")
-    assert_equal("Name = Squidly Jones", engine.do_format(obj, "", spec))
+    assert_equal("Name = Squidly Jones", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_shouting
     engine, obj, spec = make_all("Name = %F %L")
-    assert_equal("Name = SQUIDLY JONES", engine.do_format(obj, "", spec))
+    assert_equal("Name = SQUIDLY JONES", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_wider
     engine, obj, spec = make_all("Name = %10f %10l")
-    assert_equal("Name = Squidly    Jones     ", engine.do_format(obj, "", spec))
+    assert_equal("Name = Squidly    Jones     ", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_right
     engine, obj, spec = make_all("Name = %-10f %-10l")
-    assert_equal("Name =    Squidly      Jones", engine.do_format(obj, "", spec))
+    assert_equal("Name =    Squidly      Jones", engine.do_format(obj, spec))
   end
 
   def test_that_it_calls_before_and_after
@@ -61,11 +61,11 @@ class FormatterTester < Minitest::Test
       :after  => lambda {dst << "))" })
 
     spec = FormatEngine::FormatSpec.get_spec "Test"
-    assert_equal("((Test))", engine.do_format(nil, "", spec))
+    assert_equal("((Test))", engine.do_format(nil, spec))
   end
 
   def test_that_it_rejects_bad_specs
     engine, obj, spec = make_all("Name = %f %j")
-    assert_raises(RuntimeError) { engine.do_format(obj, "", spec) }
+    assert_raises(RuntimeError) { engine.do_format(obj, spec) }
   end
 end
