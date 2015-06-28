@@ -24,7 +24,43 @@ Or install it yourself as:
 ```ruby
 require 'format_engine'
 
-#Work In Progress
+#A demo class for the format_engine gem.
+class Customer
+  extend FormatEngine::AttrFormatter
+  extend FormatEngine::AttrParser
+
+  #Demo customer first name.
+  attr_reader :first_name
+
+  #Demo customer last name
+  attr_reader :last_name
+
+  attr_formatter :strfmt,
+  {"%f"  => lambda {cat src.first_name.ljust(fmt.width) },
+   "%l"  => lambda {cat src.last_name.ljust(fmt.width)  } }
+
+  attr_parser :strprs,
+  {"%f"    => lambda { hsh[:fn] = found if parse(/(\w)+/ ) },
+   "%l"    => lambda { hsh[:ln] = found if parse(/(\w)+/ ) },
+   :after  => lambda { set dst.new(hsh[:fn], hsh[:ln]) } }
+
+  #Create an instance of the demo customer.
+  def initialize(first_name, last_name)
+    @first_name, @last_name = first_name, last_name
+  end
+end
+
+#Then later in the code...
+
+cust = Customer.new("Jane", "Doe")
+puts cust.strfmt("%f, %l"))  #"Jane, Doe"
+
+#And elsewhere in Gotham City...
+
+in_str = "Jane, Doe"
+agent = Customer.strprs(in_str, "%f, %l")
+
+#Etc, etc, etc ...
 
 ```
 
