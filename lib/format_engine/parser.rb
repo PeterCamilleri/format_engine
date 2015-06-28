@@ -1,11 +1,11 @@
 module FormatEngine
 
-  # The concrete class for the Formatter.
+  # The concrete class for the Parser.
   class Parser < Base
 
-    # Do the actual work of building the formatted output.
+    # Do the actual work of parsing the formatted input.
     #<br>Parameters
-    #* src - The source object being formatted.
+    #* src - The source string being parsed.
     #* format_spec - The format specification.
     def do_parse(src, dst, format_spec)
       spec_info = SpecInfo.new(src, dst, nil, self, {})
