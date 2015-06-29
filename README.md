@@ -82,16 +82,12 @@ agent = Customer.strprs(in_str, "%f, %l")
 Format String Specification Syntax (BNF):
 
 * spec = { text | item }+
-
 * item = "%" {flag}* {parm {"." parm}?}? {command}
-
 * flag = { "~" | "@" | "#" | "&" | "^"  |
   "&" | "*" | "-" | "+" | "="  |
   "?" | "_" | "<" | ">" | "\\" |
   "/" | "." | "," | "|" | "!"  }
-
 * parm = { "0" .. "9" }+
-
 * command = { "a" .. "z" | "A" .. "Z" }
 
 
@@ -148,6 +144,10 @@ Methods
 * found? - Did the last parse succeed?
 * found - The text found by the last parse (or parse!) operation.
 
+###Format Specifier Attributes
+The format specifier (accessed as fmt above) has the following attributes:
+* width - The width parameter or 0 if not specified.
+* prec - The precision parameter or 0 if not specified.
 
 ## Philosophy
 
@@ -155,7 +155,7 @@ When designing this gem, a concerted effort has been applied to keeping it as
 simple as possible. To this end, many subtle programming techniques have been
 avoided in favor of simpler, more obvious approaches. This is based on the
 observation that I don't trust code that I don't understand and I avoid code
-I don't trust.
+that I don't trust.
 
 Feedback on the convenience/clarity balance as well as any other topics are
 most welcomed.
