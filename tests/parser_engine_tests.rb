@@ -29,7 +29,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_parse
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%f, %l"
+    spec = "%f, %l"
     result = engine.do_parse("Squidly, Jones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
@@ -39,7 +39,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_parse_loudly
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%F, %L"
+    spec =  "%F, %L"
     result = engine.do_parse("Squidly, Jones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
@@ -49,7 +49,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_fix_shouting
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%-F, %-L"
+    spec =  "%-F, %-L"
     result = engine.do_parse("SQUIDLY, JONES", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
@@ -59,7 +59,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_flex_parse
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%f%,s%l"
+    spec =  "%f%,s%l"
     result = engine.do_parse("Squidly, Jones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
@@ -69,7 +69,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_tab_parse
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%f%t%l"
+    spec =  "%f%t%l"
     result = engine.do_parse("Squidly\tJones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
@@ -79,13 +79,13 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_detect_errors
     engine = make_parser
-    spec = FormatEngine::FormatSpec.get_spec "%f, %l"
+    spec =  "%f, %l"
 
     assert_raises(RuntimeError) do
       engine.do_parse("Squidly Jones", TestPerson, spec)
     end
 
-    spec = FormatEngine::FormatSpec.get_spec "%f%!t%l"
+    spec =  "%f%!t%l"
 
     assert_raises(RuntimeError) do
       engine.do_parse("Squidly Jones", TestPerson, spec)

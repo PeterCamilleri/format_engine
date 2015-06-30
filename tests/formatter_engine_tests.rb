@@ -28,7 +28,7 @@ class FormatterTester < Minitest::Test
   end
 
   def make_spec(str)
-    FormatEngine::FormatSpec.get_spec str
+    str
   end
 
   def make_all(str)
@@ -60,7 +60,7 @@ class FormatterTester < Minitest::Test
       :before => lambda {dst << "((" },
       :after  => lambda {dst << "))" })
 
-    spec = FormatEngine::FormatSpec.get_spec "Test"
+    spec = "Test"
     assert_equal("((Test))", engine.do_format(nil, spec))
   end
 
@@ -68,4 +68,14 @@ class FormatterTester < Minitest::Test
     engine, obj, spec = make_all("Name = %f %j")
     assert_raises(RuntimeError) { engine.do_format(obj, spec) }
   end
+
+  def test_that_it_validates_before_before
+    engine, obj, spec = make_all("Name = %f %j")
+    test = 1
+    engine[:before] = lambda { test = 2 }
+
+    assert_raises(RuntimeError) { engine.do_format(obj, spec) }
+    assert_equal(1, test)
+  end
+
 end

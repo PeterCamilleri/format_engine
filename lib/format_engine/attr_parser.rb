@@ -21,9 +21,7 @@ module FormatEngine
       engine = Engine.new(library)
 
       define_singleton_method(method) do |src, spec_str|
-        spec = FormatEngine::FormatSpec.get_spec(spec_str)
-
-        engine.do_parse(src, self, spec)
+        engine.do_parse(src, self, spec_str)
       end
 
     end

@@ -20,9 +20,7 @@ module FormatEngine
       engine = Engine.new(library)
 
       define_method(method) do |spec_str|
-        spec = FormatEngine::FormatSpec.get_spec(spec_str)
-
-        engine.do_format(self, spec)
+        engine.do_format(self, spec_str)
       end
 
     end
