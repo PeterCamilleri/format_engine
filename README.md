@@ -102,7 +102,7 @@ creates the following format specification array:
 ```ruby
 [Literal("Elapsed = "),
  Variable("%*H", ["02"]),
- Literal("H"),
+ Literal(":"),
  Variable("%M", nil).
  Literal(":"),
  Variable("%S", ["5", "2"]),
