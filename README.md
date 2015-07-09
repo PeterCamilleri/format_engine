@@ -82,12 +82,11 @@ agent = Customer.strprs(in_str, "%f, %l")
 Format String Specification Syntax (BNF):
 
 * spec = ( text | item )+
-* item = "%" flag* string? (parm ("." parm)?)? command
+* item = "%" flag* (parm ("." parm)?)? command
 * flag = ( "~" | "@" | "#" | "&" | "^"  |
   "&" | "*" | "-" | "+" | "="  |
   "?" | "_" | "<" | ">" | "\\" |
   "/" | "." | "," | "|" | "!"  )
-* string = "'" ((any-"'") | ("\\" any))* "'"
 * parm = ("0" .. "9")+
 * command = ("a" .. "z" | "A" .. "Z")
 
@@ -96,19 +95,18 @@ Format String Specification Syntax (BNF):
 
 The format specification:
 ```ruby
-"Elapsed = %*02H:%M:%5.2S! %?', Zone = 'z"
+"Elapsed = %*02H:%M:%5.2S!"
 ```
 creates the following format specification array:
 
 ```ruby
 [Literal("Elapsed = "),
- Variable("%*H", nil, ["02"]),
+ Variable("%*H", ["02"]),
  Literal("H"),
- Variable("%M", nil, nil).
+ Variable("%M", nil).
  Literal(":"),
- Variable("%S", nil, ["5", "2"]),
- Literal("!"),
- Variable("?z", ", Zone = ", nil)]
+ Variable("%S", ["5", "2"]),
+ Literal("!")]
 ```
 Where literals are processed as themselves and variables are executed by looking
 up the format string in the library and executing the corresponding block.
@@ -151,7 +149,6 @@ Methods
 
 ###Format Specifier Attributes
 The format specifier (accessed as fmt above) has the following attributes:
-* text - The text parameter or the empty string if not specified.
 * width - The width parameter or 0 if not specified.
 * prec - The precision parameter or 0 if not specified.
 
