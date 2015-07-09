@@ -54,9 +54,9 @@ class Customer
 
   #Demo defn of the strprs method for formatted string input!
   attr_parser :strprs,
-  {"%f"    => lambda { hsh[:fn] = found if parse(/(\w)+/ ) },
-   "%l"    => lambda { hsh[:ln] = found if parse(/(\w)+/ ) },
-   :after  => lambda { set dst.new(hsh[:fn], hsh[:ln]) } }
+  {"%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/ ) },
+   "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
+   :after  => lambda { set dst.new(tmp[:fn], tmp[:ln]) } }
 
   #Create an instance of the demo customer.
   def initialize(first_name, last_name)
@@ -81,29 +81,34 @@ agent = Customer.strprs(in_str, "%f, %l")
 
 Format String Specification Syntax (BNF):
 
-* spec = { text | item }+
-* item = "%" {flag}* {parm {"." parm}?}? {command}
-* flag = { "~" | "@" | "#" | "&" | "^"  |
+* spec = ( text | item )+
+* item = "%" flag* string? (parm ("." parm)?)? command
+* flag = ( "~" | "@" | "#" | "&" | "^"  |
   "&" | "*" | "-" | "+" | "="  |
   "?" | "_" | "<" | ">" | "\\" |
-  "/" | "." | "," | "|" | "!"  }
-* parm = { "0" .. "9" }+
-* command = { "a" .. "z" | "A" .. "Z" }
+  "/" | "." | "," | "|" | "!"  )
+* string = "'" ((any-"'") | ("\\" any))* "'"
+* parm = ("0" .. "9")+
+* command = ("a" .. "z" | "A" .. "Z")
 
 
-###Sample:
+###Samples:
 
-The format specification "Elapsed = %*02H:%M:%5.2S!"
+The format specification:
+```ruby
+"Elapsed = %*02H:%M:%5.2S! %?', Zone = 'z"
+```
 creates the following format specification array:
 
 ```ruby
 [Literal("Elapsed = "),
- Variable("%*H", ["02"]),
+ Variable("%*H", nil, ["02"]),
  Literal("H"),
- Variable("%M", nil).
+ Variable("%M", nil, nil).
  Literal(":"),
- Variable("%S", ["5", "2"]),
- Literal("!")]
+ Variable("%S", nil, ["5", "2"]),
+ Literal("!"),
+ Variable("?z", ", Zone = ", nil)]
 ```
 Where literals are processed as themselves and variables are executed by looking
 up the format string in the library and executing the corresponding block.
@@ -123,11 +128,11 @@ Attributes:
 * dst - A string that receives the formatted output (RO).
 * fmt - The format specification currently being processed (RW).
 * engine - The formatting engine. Mostly for access to the library (RO).
-* hsh - A utility hash so that the formatting process can retain state (RO).
+* tmp - A utility hash so that the formatting process can retain state (RO).
 
 Methods
 * cat - Append the string that follows to the formatted output. This is
-  equivalent to dst << "string"
+  equivalent to the code dst << "string"
 
 ###When Parsing:
 Attributes:
@@ -135,7 +140,7 @@ Attributes:
 * dst - The class of the object being created (RO).
 * fmt - The parse specification currently being processed (RW).
 * engine - The parsing engine. Mostly for access to the library (RO).
-* hsh - A utility hash so that the parsing process can retain state RO.
+* tmp - A utility hash so that the parsing process can retain state (RO).
 
 Methods
 * set - Set the return value of the parsing operation to the value that follows.
@@ -146,6 +151,7 @@ Methods
 
 ###Format Specifier Attributes
 The format specifier (accessed as fmt above) has the following attributes:
+* text - The text parameter or the empty string if not specified.
 * width - The width parameter or 0 if not specified.
 * prec - The precision parameter or 0 if not specified.
 
@@ -162,8 +168,20 @@ most welcomed.
 
 ## Contributing
 
+#### Plan A
+
 1. Fork it ( https://github.com/[my-github-username]/format_engine/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+#### Plan B
+
+Go to the GitHub repository and raise an issue calling attention to some
+aspect that could use some TLC or a suggestion or idea. Apply labels to
+the issue that match the point you are trying to make. Then follow your
+issue and keep up-to-date as it is worked on. Or not as pleases you.
+All input are greatly appreciated.
+
+
