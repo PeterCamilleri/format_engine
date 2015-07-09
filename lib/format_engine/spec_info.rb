@@ -11,7 +11,7 @@ module FormatEngine
   #* dst - A string that receives the formatted output.
   #* fmt - The format specification currently being processed.
   #* engine - The formatting engine. Mostly for access to the library.
-  #* hsh - A utility hash so that the formatting process can retain state.
+  #* tmp - A utility hash so that the formatting process can retain state.
   #<br>Methods
   #* cat - Append the string that follows to the formatted output.
   #<br>
@@ -20,7 +20,7 @@ module FormatEngine
   #* dst - The class of the object being created.
   #* fmt - The parse specification currently being processed.
   #* engine - The parsing engine. Mostly for access to the library.
-  #* hsh - A utility hash so that the parsing process can retain state.
+  #* tmp - A utility hash so that the parsing process can retain state.
   #<br>Methods
   #* set - Set the return value of the parsing operation to the value that follows.
   #* parse - Look for the string or regex parm that follows. Return the data found or nil.
@@ -30,14 +30,14 @@ module FormatEngine
   class SpecInfo
 
     # General readers
-    attr_reader :src, :dst, :engine, :hsh
+    attr_reader :src, :dst, :engine, :tmp
 
     #General accessors
     attr_accessor :fmt
 
     # Set up the spec info.
-    def initialize(src, dst, fmt, engine, hsh = {})
-      @src, @dst, @fmt, @engine, @hsh = src, dst, fmt, engine, hsh
+    def initialize(src, dst, fmt, engine, tmp = {})
+      @src, @dst, @fmt, @engine, @tmp = src, dst, fmt, engine, tmp
     end
 
     # Concatenate onto the formatted output string.

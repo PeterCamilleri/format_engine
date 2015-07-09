@@ -7,8 +7,8 @@ class Customer
   #The specification of the parser method of the demo \Customer class.
 
   attr_parser :strprs,
-  {"%f"    => lambda { hsh[:fn] = found if parse(/(\w)+/ ) },
-   "%l"    => lambda { hsh[:ln] = found if parse(/(\w)+/ ) },
-   :after  => lambda { set dst.new(hsh[:fn], hsh[:ln]) } }
+  {"%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/ ) },
+   "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
+   :after  => lambda { set dst.new(tmp[:fn], tmp[:ln]) } }
 
 end

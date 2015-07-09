@@ -2,15 +2,16 @@ require_relative 'format_spec/literal'
 require_relative 'format_spec/variable'
 
 # Format String Specification Syntax (BNF):
-#  spec = { text | item }+
-#  item = "%" {flag}* {parm {"." parm}?}? {command}
-#  flag = { "~" | "@" | "#" | "&" | "^"  |
+#  spec = (text | item)+
+#  item = "%" flag* (parm ("." parm)? )? command
+#  flag = ( "~" | "@" | "#" | "&" | "^"  |
 #           "&" | "*" | "-" | "+" | "="  |
 #           "?" | "_" | "<" | ">" | "\\" |
-#           "/" | "." | "," | "|" | "!"  }
-#  parm = { "0" .. "9" }+
-#  command = { "a" .. "z" | "A" .. "Z" }
-#  Sample: x = FormatSpec.get_spec "Elapsed = %*03.1H:%M:%S!"
+#           "/" | "." | "," | "|" | "!"  )
+#  parm = ("0" .. "9" )+
+#  command = ("a" .. "z" | "A" .. "Z")
+#
+#  Sample: x = FormatSpec.get_spec "Elapsed = %*3.1H:%02M!"
 
 module FormatEngine
 

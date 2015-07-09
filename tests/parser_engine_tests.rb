@@ -13,18 +13,18 @@ class ParserTester < Minitest::Test
 
   def make_parser
     FormatEngine::Engine.new(
-      "%f"    => lambda { hsh[:fn] = found if parse(/(\w)+/ ) },
-      "%F"    => lambda { hsh[:fn] = found.upcase if parse(/(\w)+/) },
-      "%-F"   => lambda { hsh[:fn] = found.capitalize if parse(/(\w)+/) },
-      "%l"    => lambda { hsh[:ln] = found if parse(/(\w)+/ ) },
-      "%L"    => lambda { hsh[:ln] = found.upcase if parse(/(\w)+/) },
-      "%-L"   => lambda { hsh[:ln] = found.capitalize if parse(/(\w)+/) },
+      "%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/ ) },
+      "%F"    => lambda { tmp[:fn] = found.upcase if parse(/(\w)+/) },
+      "%-F"   => lambda { tmp[:fn] = found.capitalize if parse(/(\w)+/) },
+      "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
+      "%L"    => lambda { tmp[:ln] = found.upcase if parse(/(\w)+/) },
+      "%-L"   => lambda { tmp[:ln] = found.capitalize if parse(/(\w)+/) },
       "%s"    => lambda { parse(/\s+/) },
       "%,s"   => lambda { parse(/[,\s]\s*/) },
       "%t"    => lambda { parse("\t") },
       "%!t"   => lambda { parse!("\t") },
 
-      :after  => lambda { set TestPerson.new(hsh[:fn], hsh[:ln]) })
+      :after  => lambda { set TestPerson.new(tmp[:fn], tmp[:ln]) })
   end
 
   def test_that_it_can_parse
