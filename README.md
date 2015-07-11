@@ -149,8 +149,13 @@ Methods
 
 ###Format Specifier Attributes
 The format specifier (accessed as fmt above) has the following attributes:
+* has_width? - Was a width specified?
 * width - The width parameter or 0 if not specified.
+* width_str - The actual width text or an empty string.
+* has_prec? - Was a precision specified?
 * prec - The precision parameter or 0 if not specified.
+* prec_str - The actual precision text or an empty string.
+* parm_str - The actual parameter text or an empty string.
 
 ## Philosophy
 

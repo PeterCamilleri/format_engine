@@ -32,6 +32,11 @@ class FormatSpecTester < Minitest::Test
       assert_equal(1, test.specs.length)
       assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
       assert_equal("%#{char}A", test.specs[0].format)
+      refute(test.specs[0].has_width?)
+      refute(test.specs[0].has_prec?)
+      assert_equal("", test.specs[0].width_str)
+      assert_equal("", test.specs[0].prec_str)
+      assert_equal("", test.specs[0].parm_str)
     end
   end
 
@@ -45,6 +50,11 @@ class FormatSpecTester < Minitest::Test
     assert_equal(Array, test.specs[0].parms.class)
     assert_equal(1, test.specs[0].parms.length)
     assert_equal("123", test.specs[0].parms[0])
+    assert(test.specs[0].has_width?)
+    refute(test.specs[0].has_prec?)
+    assert_equal("123", test.specs[0].width_str)
+    assert_equal("", test.specs[0].prec_str)
+    assert_equal("123", test.specs[0].parm_str)
   end
 
   def test_that_it_scans_double_variable_formats
@@ -58,6 +68,11 @@ class FormatSpecTester < Minitest::Test
     assert_equal(2, test.specs[0].parms.length)
     assert_equal("123", test.specs[0].parms[0])
     assert_equal("456", test.specs[0].parms[1])
+    assert(test.specs[0].has_width?)
+    assert(test.specs[0].has_prec?)
+    assert_equal("123", test.specs[0].width_str)
+    assert_equal("456", test.specs[0].prec_str)
+    assert_equal("123.456", test.specs[0].parm_str)
   end
 
   def test_multipart_formats
