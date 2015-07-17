@@ -41,7 +41,7 @@ module FormatEngine
     #Scan the format string extracting literals and variables.
     def scan_spec(fmt_string)
       until fmt_string.empty?
-        if fmt_string =~ /%[~@#$^&*\-+=?_<>\\\/\.,\|!]*(\d+(\.\d+)?)?[a-zA-Z]/
+        if fmt_string =~ /%[~@#$^&*\=?_<>\\\/\.,\|!]*[-+]?(\d+(\.\d+)?)?[a-zA-Z]/
           @specs << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
           @specs << FormatVariable.new($MATCH)
           fmt_string  =  $POSTMATCH

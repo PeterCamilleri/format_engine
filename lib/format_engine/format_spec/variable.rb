@@ -14,7 +14,7 @@ module FormatEngine
 
     #Setup a variable format specification.
     def initialize(format)
-      if format =~ /(\d+(\.\d+)?)/
+      if format =~ /[+-]?(\d+(\.\d+)?)/
         @format   = $PREMATCH + $POSTMATCH
         @parm_str = $MATCH
 

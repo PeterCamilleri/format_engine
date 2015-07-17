@@ -49,8 +49,8 @@ class Customer
 
   #Demo defn of the strfmt method for formatted string output!
   attr_formatter :strfmt,
-  {"%f"  => lambda {cat src.first_name.ljust(fmt.width) },
-   "%l"  => lambda {cat src.last_name.ljust(fmt.width)  } }
+  {"%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name },
+   "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name  } }
 
   #Demo defn of the strprs method for formatted string input!
   attr_parser :strprs,
@@ -82,11 +82,8 @@ agent = Customer.strprs(in_str, "%f, %l")
 Format String Specification Syntax (BNF):
 
 * spec = ( text | item )+
-* item = "%" flag* (parm ("." parm)?)? command
-* flag = ( "~" | "@" | "#" | "&" | "^"  |
-  "&" | "*" | "-" | "+" | "="  |
-  "?" | "_" | "<" | ">" | "\\" |
-  "/" | "." | "," | "|" | "!"  )
+* item = "%" flag* ("+" | "-")?(parm ("." parm)?)? command
+* flag = "~"|"@"|"#"|"&"|"^"|"&"|"*"|"="|"?"|"_"|"<"|">"|"\\"|"/"|"."|","|"|"|"!"
 * parm = ("0" .. "9")+
 * command = ("a" .. "z" | "A" .. "Z")
 
@@ -95,7 +92,7 @@ Format String Specification Syntax (BNF):
 
 The format specification:
 ```ruby
-"Elapsed = %*02H:%M:%5.2S!"
+"Elapsed = %*02H:%M:%-5.2S!"
 ```
 creates the following format specification array:
 
@@ -105,7 +102,7 @@ creates the following format specification array:
  Literal(":"),
  Variable("%M", nil).
  Literal(":"),
- Variable("%S", ["5", "2"]),
+ Variable("%S", ["-5", "2"]),
  Literal("!")]
 ```
 Where literals are processed as themselves and variables are executed by looking

@@ -13,14 +13,10 @@ class FormatterTester < Minitest::Test
 
   def make_formatter
     FormatEngine::Engine.new(
-      "%f"  => lambda {cat src.first_name.ljust(fmt.width) },
-      "%-f" => lambda {cat src.first_name.rjust(fmt.width) },
-      "%F"  => lambda {cat src.first_name.upcase.ljust(fmt.width) },
-      "%-F" => lambda {cat src.first_name.upcase.rjust(fmt.width) },
-      "%l"  => lambda {cat src.last_name.ljust(fmt.width)},
-      "%-l" => lambda {cat src.last_name.rjust(fmt.width)},
-      "%L"  => lambda {cat src.last_name.upcase.ljust(fmt.width) },
-      "%-L" => lambda {cat src.last_name.upcase.rjust(fmt.width) })
+      "%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name},
+      "%F"  => lambda {cat "%#{fmt.width_str}s" % src.first_name.upcase},
+      "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name},
+      "%L"  => lambda {cat "%#{fmt.width_str}s" % src.last_name.upcase})
   end
 
   def make_person
@@ -46,12 +42,12 @@ class FormatterTester < Minitest::Test
   end
 
   def test_that_it_can_format_wider
-    engine, obj, spec = make_all("Name = %10f %10l")
+    engine, obj, spec = make_all("Name = %-10f %-10l")
     assert_equal("Name = Squidly    Jones     ", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_right
-    engine, obj, spec = make_all("Name = %-10f %-10l")
+    engine, obj, spec = make_all("Name = %10f %10l")
     assert_equal("Name =    Squidly      Jones", engine.do_format(obj, spec))
   end
 

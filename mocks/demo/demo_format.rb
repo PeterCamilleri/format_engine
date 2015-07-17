@@ -7,7 +7,7 @@ class Customer
   #The specification of the formatter method of the demo \Customer class.
 
   attr_formatter :strfmt,
-  {"%f"  => lambda {cat src.first_name.ljust(fmt.width) },
-   "%l"  => lambda {cat src.last_name.ljust(fmt.width)  } }
+  {"%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name },
+   "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name  } }
 
 end

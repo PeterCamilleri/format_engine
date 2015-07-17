@@ -75,6 +75,24 @@ class FormatSpecTester < Minitest::Test
     assert_equal("123.456", test.specs[0].parm_str)
   end
 
+  def test_negative_variable_formats
+    test = FormatEngine::FormatSpec.get_spec "%-123.456A"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+    assert_equal("%A", test.specs[0].format)
+
+    assert_equal(Array, test.specs[0].parms.class)
+    assert_equal(2, test.specs[0].parms.length)
+    assert_equal("-123", test.specs[0].parms[0])
+    assert_equal("456", test.specs[0].parms[1])
+    assert(test.specs[0].has_width?)
+    assert(test.specs[0].has_prec?)
+    assert_equal("-123", test.specs[0].width_str)
+    assert_equal("456", test.specs[0].prec_str)
+    assert_equal("-123.456", test.specs[0].parm_str)
+  end
+
   def test_multipart_formats
     test = FormatEngine::FormatSpec.get_spec "T(%+02A:%3B:%4.1C)"
 
@@ -85,9 +103,9 @@ class FormatSpecTester < Minitest::Test
     assert_equal("T(", test.specs[0].literal)
 
     assert_equal(FormatEngine::FormatVariable, test.specs[1].class)
-    assert_equal("%+A", test.specs[1].format)
+    assert_equal("%A", test.specs[1].format)
     assert_equal(1, test.specs[1].parms.length)
-    assert_equal("02", test.specs[1].parms[0])
+    assert_equal("+02", test.specs[1].parms[0])
 
     assert_equal(FormatEngine::FormatLiteral, test.specs[2].class)
     assert_equal(":", test.specs[2].literal)
