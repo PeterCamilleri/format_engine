@@ -19,8 +19,6 @@ class ParserTester < Minitest::Test
       "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
       "%L"    => lambda { tmp[:ln] = found.upcase if parse(/(\w)+/) },
       "%-L"   => lambda { tmp[:ln] = found.capitalize if parse(/(\w)+/) },
-      "%s"    => lambda { parse(/\s+/) },
-      "%,s"   => lambda { parse(/[,\s]\s*/) },
       "%t"    => lambda { parse("\t") },
       "%!t"   => lambda { parse!("\t") },
 
@@ -59,8 +57,24 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_flex_parse
     engine = make_parser
-    spec =  "%f%,s%l"
+    spec =  "%f, %l"
+
+    #No spaces.
+    result = engine.do_parse("Squidly,Jones", TestPerson, spec)
+
+    assert_equal(TestPerson, result.class)
+    assert_equal("Squidly", result.first_name)
+    assert_equal("Jones", result.last_name)
+
+    #One space.
     result = engine.do_parse("Squidly, Jones", TestPerson, spec)
+
+    assert_equal(TestPerson, result.class)
+    assert_equal("Squidly", result.first_name)
+    assert_equal("Jones", result.last_name)
+
+    #Two spaces.
+    result = engine.do_parse("Squidly,  Jones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
     assert_equal("Squidly", result.first_name)

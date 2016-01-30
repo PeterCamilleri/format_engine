@@ -9,6 +9,8 @@ module FormatEngine
     # Set up a literal format specification.
     def initialize(literal)
       @literal = literal
+      @head = literal.rstrip
+      @tail = literal.end_with?(' ')
     end
 
     # Is this literal supported by the engine? YES!
@@ -23,7 +25,8 @@ module FormatEngine
 
     # Parse from the input string
     def do_parse(spec_info)
-      spec_info.parse!(literal)
+      spec_info.parse!(@head) unless @head.empty?
+      spec_info.parse(/\s*/)  if @tail
     end
 
     # Inspect for debugging.

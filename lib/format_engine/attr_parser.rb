@@ -20,6 +20,7 @@ module FormatEngine
     def attr_parser(method, library)
       engine = Engine.new(library)
 
+      #Create a class method to do the parsing.
       define_singleton_method(method) do |src, spec_str|
         engine.do_parse(src, self, spec_str)
       end

@@ -19,6 +19,7 @@ module FormatEngine
     def attr_formatter(method, library)
       engine = Engine.new(library)
 
+      #Create an instance method to do the formatting.
       define_method(method) do |spec_str|
         engine.do_format(self, spec_str)
       end
