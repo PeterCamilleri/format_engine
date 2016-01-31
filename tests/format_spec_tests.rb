@@ -25,6 +25,23 @@ class FormatSpecTester < Minitest::Test
     assert_equal(nil, test.specs[0].parms)
   end
 
+  def test_that_it_scans_tab_seperators
+    test = FormatEngine::FormatSpec.get_spec "%A\t%B"
+    assert_equal(Array, test.specs.class)
+    assert_equal(3, test.specs.length)
+
+    assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
+    assert_equal("%A", test.specs[0].format)
+    assert_equal(nil, test.specs[0].parms)
+
+    assert_equal(FormatEngine::FormatLiteral, test.specs[1].class)
+    assert_equal("\t", test.specs[1].literal)
+
+    assert_equal(FormatEngine::FormatVariable, test.specs[2].class)
+    assert_equal("%B", test.specs[2].format)
+    assert_equal(nil, test.specs[2].parms)
+  end
+
   def test_that_it_scans_option_variable_formats
     "~@#&^&*-+=?_<>\\/.,|".each_char do |char|
       test = FormatEngine::FormatSpec.get_spec "%#{char}A"

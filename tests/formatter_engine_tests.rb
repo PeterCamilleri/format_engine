@@ -20,7 +20,7 @@ class FormatterTester < Minitest::Test
   end
 
   def make_person
-    TestPerson.new("Squidly", "Jones")
+    TestPerson.new("Squidly", "Jones", 55)
   end
 
   def make_spec(str)

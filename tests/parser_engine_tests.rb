@@ -22,7 +22,7 @@ class ParserTester < Minitest::Test
       "%t"    => lambda { parse("\t") },
       "%!t"   => lambda { parse!("\t") },
 
-      :after  => lambda { set TestPerson.new(tmp[:fn], tmp[:ln]) })
+      :after  => lambda { set TestPerson.new(tmp[:fn], tmp[:ln], 0) })
   end
 
   def test_that_it_can_parse
@@ -83,7 +83,7 @@ class ParserTester < Minitest::Test
 
   def test_that_it_can_tab_parse
     engine = make_parser
-    spec =  "%f%t%l"
+    spec =  "%f %l"
     result = engine.do_parse("Squidly\tJones", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)

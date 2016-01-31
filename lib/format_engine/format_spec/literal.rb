@@ -10,7 +10,7 @@ module FormatEngine
     def initialize(literal)
       @literal = literal
       @head = literal.rstrip
-      @tail = literal.end_with?(' ')
+      @tail = /\s$/ =~ literal
     end
 
     # Is this literal supported by the engine? YES!
