@@ -37,6 +37,8 @@ require 'format_engine'
 
 #A demo class for the format_engine gem.
 
+require 'format_engine'
+
 class Customer
   extend FormatEngine::AttrFormatter
   extend FormatEngine::AttrParser
@@ -47,32 +49,39 @@ class Customer
   #Demo customer last name
   attr_reader :last_name
 
+  #Demo customer age
+  attr_reader :age
+
   #Demo defn of the strfmt method for formatted string output!
   attr_formatter :strfmt,
-  {"%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name },
-   "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name  } }
+  {"%a"  => lambda {cat "%#{fmt.width_str}d" % src.age },
+   "%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name },
+   "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name  }
+  }
 
   #Demo defn of the strprs method for formatted string input!
   attr_parser :strprs,
-  {"%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/ ) },
+  {"%a"    => lambda { tmp[:age] = found.to_i if parse(/(\d)+/ ) },
+   "%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/ ) },
    "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
-   :after  => lambda { set dst.new(tmp[:fn], tmp[:ln]) } }
+   :after  => lambda { set dst.new(tmp[:fn], tmp[:ln], tmp[:age]) }
+  }
 
   #Create an instance of the demo customer.
-  def initialize(first_name, last_name)
-    @first_name, @last_name = first_name, last_name
+  def initialize(first_name, last_name, age)
+    @first_name, @last_name, @age = first_name, last_name, age
   end
 end
 
 #Then later in the code...
 
-cust = Customer.new("Jane", "Doe")
-puts cust.strfmt("%f, %l"))  #"Jane, Doe"
+cust = Customer.strprs('Jane, Smith 22', "%f, %l %a")
 
-#And elsewhere in Gotham City...
+# snd still in another part of Gotham City...
 
-in_str = "Jane, Doe"
-agent = Customer.strprs(in_str, "%f, %l")
+puts cust.strfmt('%f %l is %a years old.')
+
+# Prints out: Jane Smith is 22 years old.
 
 #Etc, etc, etc ...
 

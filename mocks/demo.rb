@@ -1,5 +1,7 @@
 # A simple class of customer info.
 
+require_relative '../lib/format_engine'
+
 require_relative 'demo/demo_format'
 require_relative 'demo/demo_parse'
 
@@ -11,8 +13,15 @@ class Customer
   #Demo customer last name
   attr_reader :last_name
 
+  #Demo customer age
+  attr_reader :age
+
   #Create an instance of the demo customer.
-  def initialize(first_name, last_name)
-    @first_name, @last_name = first_name, last_name
+  def initialize(first_name, last_name, age)
+    @first_name, @last_name, @age = first_name, last_name, age
   end
 end
+
+cust = Customer.strprs('Jane, Smith 22', "%f, %l %a")
+
+puts cust.strfmt('%f %l is %a years old.')
