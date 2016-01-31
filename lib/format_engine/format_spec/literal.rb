@@ -10,7 +10,7 @@ module FormatEngine
     def initialize(literal)
       @literal = literal
       @head = literal.rstrip
-      @tail = /\s$/ =~ literal
+      @tail = @head != @literal
     end
 
     # Is this literal supported by the engine? YES!
