@@ -37,8 +37,6 @@ require 'format_engine'
 
 #A demo class for the format_engine gem.
 
-require 'format_engine'
-
 class Customer
   extend FormatEngine::AttrFormatter
   extend FormatEngine::AttrParser
