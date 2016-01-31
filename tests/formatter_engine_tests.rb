@@ -13,6 +13,7 @@ class FormatterTester < Minitest::Test
 
   def make_formatter
     FormatEngine::Engine.new(
+      "%a"  => lambda {cat "%#{fmt.width_str}d" % src.age},
       "%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name},
       "%F"  => lambda {cat "%#{fmt.width_str}s" % src.first_name.upcase},
       "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name},
@@ -20,7 +21,7 @@ class FormatterTester < Minitest::Test
   end
 
   def make_person
-    TestPerson.new("Squidly", "Jones", 55)
+    TestPerson.new("Squidly", "Jones", 21)
   end
 
   def make_spec(str)
@@ -32,23 +33,23 @@ class FormatterTester < Minitest::Test
   end
 
   def test_that_it_can_format_normally
-    engine, obj, spec = make_all("Name = %f %l")
-    assert_equal("Name = Squidly Jones", engine.do_format(obj, spec))
+    engine, obj, spec = make_all("Name = %f %l %a")
+    assert_equal("Name = Squidly Jones 21", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_shouting
-    engine, obj, spec = make_all("Name = %F %L")
-    assert_equal("Name = SQUIDLY JONES", engine.do_format(obj, spec))
+    engine, obj, spec = make_all("Name = %F %L %a")
+    assert_equal("Name = SQUIDLY JONES 21", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_wider
-    engine, obj, spec = make_all("Name = %-10f %-10l")
-    assert_equal("Name = Squidly    Jones     ", engine.do_format(obj, spec))
+    engine, obj, spec = make_all("Name = %-10f %-10l %-5a")
+    assert_equal("Name = Squidly    Jones      21   ", engine.do_format(obj, spec))
   end
 
   def test_that_it_can_format_right
-    engine, obj, spec = make_all("Name = %10f %10l")
-    assert_equal("Name =    Squidly      Jones", engine.do_format(obj, spec))
+    engine, obj, spec = make_all("Name = %10f %10l %5a")
+    assert_equal("Name =    Squidly      Jones    21", engine.do_format(obj, spec))
   end
 
   def test_that_it_calls_before_and_after
