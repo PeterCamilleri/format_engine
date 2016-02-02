@@ -22,6 +22,7 @@ class Customer
   end
 end
 
-cust = Customer.strprs('Jane, Smith 22', "%f, %l %a")
-
-puts cust.strfmt('%f %l is %a years old.')
+if __FILE__ == $0
+  cust = Customer.strprs('Jane, Smith 22', "%f, %l %a")
+  puts cust.strfmt('%f %l is %a years old.')
+end
