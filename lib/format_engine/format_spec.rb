@@ -18,7 +18,10 @@ module FormatEngine
   #The format string parser.
   class FormatSpec
     #The regex used to parse variable specifications.
-    VAR_REGEX = /%[~@#$^&*\=?_<>\\\/\.,\|!]*[-+]?(\d+(\.\d+)?)?[a-zA-Z]/
+    VAR_REGEX = %r{(?<flags> [~@#$^&*\=?_<>\\\/\.,\|!]*){0}
+                   (?<parms> [-+]?(\d+(\.\d+)?)?){0}
+                   (%\g<flags>\g<parms>[a-zA-Z])
+                  }x
 
     #Don't use new, use get_spec instead.
     private_class_method :new
