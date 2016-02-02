@@ -17,6 +17,9 @@ module FormatEngine
 
   #The format string parser.
   class FormatSpec
+    #The regex used to parse variable specifications.
+    VAR_REGEX = /%[~@#$^&*\=?_<>\\\/\.,\|!]*[-+]?(\d+(\.\d+)?)?[a-zA-Z]/
+
     #Don't use new, use get_spec instead.
     private_class_method :new
 
@@ -41,7 +44,7 @@ module FormatEngine
     #Scan the format string extracting literals and variables.
     def scan_spec(fmt_string)
       until fmt_string.empty?
-        if fmt_string =~ /%[~@#$^&*\=?_<>\\\/\.,\|!]*[-+]?(\d+(\.\d+)?)?[a-zA-Z]/
+        if fmt_string =~ VAR_REGEX
           @specs << FormatLiteral.new($PREMATCH) unless $PREMATCH.empty?
           @specs << FormatVariable.new($MATCH)
           fmt_string  =  $POSTMATCH
