@@ -14,16 +14,17 @@ class FormatEngineTester < Minitest::Test
   def test_basic_formatting
     cust = Customer.new("Jane", "Doe", 21)
 
-    assert_equal("Jane, Doe", cust.strfmt("%f, %l"))
+    assert_equal("Jane, Doe 21", cust.strfmt("%f, %l %a"))
   end
 
 
   def test_basic_parsing
-    cust = Customer.strprs("Jane, Doe", "%f, %l")
+    cust = Customer.strprs("Jane, Doe 21", "%f, %l %a")
 
     assert_equal(Customer, cust.class)
     assert_equal("Jane", cust.first_name)
     assert_equal("Doe", cust.last_name)
+    assert_equal(21, cust.age)
   end
 
 end
