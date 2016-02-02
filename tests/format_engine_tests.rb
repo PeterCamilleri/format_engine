@@ -12,7 +12,7 @@ class FormatEngineTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   def test_basic_formatting
-    cust = Customer.new("Jane", "Doe")
+    cust = Customer.new("Jane", "Doe", 21)
 
     assert_equal("Jane, Doe", cust.strfmt("%f, %l"))
   end
