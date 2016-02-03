@@ -1,2 +1,3 @@
 
-puts "In scanf.rb"
+#rscanf - Ruby SCAN a Formatted string.
+
