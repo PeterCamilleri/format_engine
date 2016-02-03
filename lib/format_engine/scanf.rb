@@ -1,0 +1,2 @@
+
+puts "In scanf.rb"
