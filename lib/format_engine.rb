@@ -2,10 +2,10 @@
 
 require 'English'
 
-require 'format_engine/format_spec'
-require 'format_engine/engine'
-require 'format_engine/spec_info'
-require 'format_engine/attr_formatter'
-require 'format_engine/attr_parser'
+require_relative 'format_engine/format_spec'
+require_relative 'format_engine/engine'
+require_relative 'format_engine/spec_info'
+require_relative 'format_engine/attr_formatter'
+require_relative 'format_engine/attr_parser'
 
-require 'format_engine/version'
+require_relative 'format_engine/version'

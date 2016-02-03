@@ -88,12 +88,15 @@ puts cust.strfmt('%f %l is %a years old.')
 
 Format String Specification Syntax (BNF):
 
-* spec = ( text | item )+
-* item = "%" flag* ("+" | "-")?(parm ("." parm)?)? command
-* flag = "~"|"@"|"#"|"&"|"^"|"&"|"*"|"="|"?"|"_"|"<"|">"|"\\"|"/"|"."|","|"|"|"!"
-* parm = ("0" .. "9")+
-* command = ("a" .. "z" | "A" .. "Z")
-
+* spec ::= (text | item | set)+
+* item ::= "%" flag* sign? (parm ("." parm)? )? command
+* set  ::= "%" flag* parm? "[" chrs "]"
+* flag ::= "~" | "@" | "#" | "&" | "^" | "&" | "*" | "=" | "?" | "_"
+| "<" | ">" | "\\" | "/" | "." | "," | "|" | "!"
+* sign ::= sign = ("+" | "-")
+* parm ::= ("0" .. "9")+
+* chrs ::= (not_any("]") | "\\" "]")+
+* command ::= ("a" .. "z" | "A" .. "Z")
 
 ###Samples:
 

@@ -32,6 +32,10 @@ class FormatterTester < Minitest::Test
     [make_formatter, make_person, make_spec(str)]
   end
 
+  def test_crazy
+    assert_equal("0.4.0", FormatEngine::VERSION)
+  end
+
   def test_that_it_can_format_normally
     engine, obj, spec = make_all("Name = %f %l %a")
     assert_equal("Name = Squidly Jones 21", engine.do_format(obj, spec))

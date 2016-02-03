@@ -3,24 +3,27 @@ module FormatEngine
   # The engine class of the format engine.
   class Engine
 
+    #The parse library
+    attr_reader :library
+
     #Set up base data structures.
     def initialize(library)
-      @lib = library
+      @library = library
 
       #Set up defaults for pre and post amble blocks.
       nop = lambda { }
-      @lib[:before] ||= nop
-      @lib[:after]  ||= nop
+      @library[:before] ||= nop
+      @library[:after]  ||= nop
     end
 
     # Get an entry from the library
     def [](index)
-      @lib[index]
+      @library[index]
     end
 
     # Set an entry in the library
     def []=(index, value)
-      @lib[index] = value
+      @library[index] = value
     end
 
     #Do the actual work of building the formatted output.

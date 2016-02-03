@@ -25,6 +25,43 @@ class FormatSpecTester < Minitest::Test
     assert_equal(nil, test.specs[0].parms)
   end
 
+  def test_that_it_scans_set_formats
+    test = FormatEngine::FormatSpec.get_spec "%[A]"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatSet, test.specs[0].class)
+    assert_equal("%[", test.specs[0].format)
+    assert_equal(/[A]+/, test.specs[0].regex)
+
+    test = FormatEngine::FormatSpec.get_spec "%*[A]"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatSet, test.specs[0].class)
+    assert_equal("%*[", test.specs[0].format)
+    assert_equal(/[A]+/, test.specs[0].regex)
+
+    test = FormatEngine::FormatSpec.get_spec "%7[A]"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatSet, test.specs[0].class)
+    assert_equal("%[", test.specs[0].format)
+    assert_equal(/[A]{1,7}/, test.specs[0].regex)
+
+    test = FormatEngine::FormatSpec.get_spec "%*7[A]"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatSet, test.specs[0].class)
+    assert_equal("%*[", test.specs[0].format)
+    assert_equal(/[A]{1,7}/, test.specs[0].regex)
+  end
+
+  def test_a_mixed_set
+    test = FormatEngine::FormatSpec.get_spec "%f %l %[age] %a"
+    assert_equal(Array, test.specs.class)
+    assert_equal(7, test.specs.length)
+
+  end
+
   def test_that_it_scans_tab_seperators
     test = FormatEngine::FormatSpec.get_spec "%A\t%B"
     assert_equal(Array, test.specs.class)

@@ -20,6 +20,7 @@ class ParserTester < Minitest::Test
       "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
       "%L"    => lambda { tmp[:ln] = found.upcase if parse(/(\w)+/) },
       "%-L"   => lambda { tmp[:ln] = found.capitalize if parse(/(\w)+/) },
+      "%["    => lambda { parse! fmt.regex },
       "%t"    => lambda { parse("\t") },
       "%!t"   => lambda { parse!("\t") },
 
@@ -92,6 +93,18 @@ class ParserTester < Minitest::Test
     assert_equal(TestPerson, result.class)
     assert_equal("Squidly", result.first_name)
     assert_equal("Jones", result.last_name)
+    assert_equal(55, result.age)
+  end
+
+  def test_that_it_can_parse_sets
+    engine = make_parser
+    spec =  "%f %l %[age] %a"
+    result = engine.do_parse("Squidly Jones age 55", TestPerson, spec)
+
+    assert_equal(TestPerson, result.class)
+    assert_equal("Squidly", result.first_name)
+    assert_equal("Jones", result.last_name)
+    assert_equal(55, result.age)
   end
 
   def test_that_it_can_detect_errors
