@@ -31,7 +31,7 @@ module FormatEngine
     #* src - The source object being formatted.
     #* format_spec_str - The format specification string.
     def do_format(src, format_spec_str)
-      spec_info = SpecInfo.new(src, "", self, {})
+      spec_info = SpecInfo.new(src, "", self)
 
       due_process(spec_info, format_spec_str) do |fmt|
         fmt.do_format(spec_info)
@@ -44,7 +44,7 @@ module FormatEngine
     #* dst - The class of the object being created.
     #* parse_spec_str - The format specification string.
     def do_parse(src, dst, parse_spec_str)
-      spec_info = SpecInfo.new(src, dst, self, {})
+      spec_info = SpecInfo.new(src, dst, self)
 
       due_process(spec_info, parse_spec_str) do |fmt|
         fmt.do_parse(spec_info)

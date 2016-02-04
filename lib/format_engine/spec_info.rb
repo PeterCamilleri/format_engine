@@ -12,15 +12,15 @@ module FormatEngine
     #The formatting engine.
     attr_reader :engine
 
-    #State storage for the formatting/parsing process.
+    #A hash for state storage for the formatting/parsing process.
     attr_reader :tmp
 
     #The format specifier currently being processed.
     attr_accessor :fmt
 
     # Set up the spec info.
-    def initialize(src, dst, engine, tmp = {})
-      @src, @dst, @engine, @tmp = src, dst, engine, tmp
+    def initialize(src, dst, engine)
+      @src, @dst, @engine, @tmp = src, dst, engine, {}
     end
 
     # Concatenate onto the formatted output string.
