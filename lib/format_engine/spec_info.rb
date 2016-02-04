@@ -33,21 +33,21 @@ module FormatEngine
       @dst = obj
     end
 
-    # Parse the source string for a string or regex
-    def parse(tgt)
-      @result = src.partition(tgt)
+    # Parse the source string for a target string or regex or return nil.
+    def parse(target)
+      @result = src.partition(target)
 
       if found?
         @src = @result[2]
-        @result[1]
+        found
       else
         nil
       end
     end
 
-    # Parse the source string for a string or regex or raise error.
-    def parse!(tgt, msg = "#{tgt.inspect} not found")
-      fail "Parse error: #{msg}" unless parse(tgt)
+    # Parse the source string for a target string or regex or raise error.
+    def parse!(target, msg = "#{target.inspect} not found")
+      fail "Parse error: #{msg}" unless parse(target)
       found
     end
 
