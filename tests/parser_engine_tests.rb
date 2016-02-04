@@ -25,7 +25,7 @@ class ParserTester < Minitest::Test
       "%!t"   => lambda { parse!("\t") },
 
       :after  => lambda do
-        set TestPerson.new(*[tmp[:fn], tmp[:ln], tmp[:age]].delete_if(&:nil?))
+        set dst.new(*[tmp[:fn], tmp[:ln], tmp[:age]].delete_if(&:nil?))
       end)
   end
 
