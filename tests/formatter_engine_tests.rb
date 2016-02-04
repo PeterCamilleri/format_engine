@@ -24,12 +24,8 @@ class FormatterTester < Minitest::Test
     TestPerson.new("Squidly", "Jones", 21)
   end
 
-  def make_spec(str)
-    str
-  end
-
   def make_all(str)
-    [make_formatter, make_person, make_spec(str)]
+    [make_formatter, make_person, str]
   end
 
   def test_that_it_can_format_normally
