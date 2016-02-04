@@ -35,11 +35,20 @@ module FormatEngine
 
     # Parse the source string for a target string or regex or return nil.
     def parse(target)
-      @result = src.partition(target)
+      #Handle the width option if specified.
+      if (width = fmt.width) > 0
+        head, tail = src[0...width], src[width..-1] || ""
+      else
+        head, tail = src, ""
+      end
 
+      #Do the parse on the input string.
+      @prematch, @match, @postmatch = head.partition(target)
+
+      #Analyze the results.
       if found?
-        @src = @result[2]
-        found
+        @src = @postmatch + tail
+        @match
       else
         nil
       end
@@ -48,17 +57,17 @@ module FormatEngine
     # Parse the source string for a target string or regex or raise error.
     def parse!(target, msg = "#{target.inspect} not found")
       fail "Parse error: #{msg}" unless parse(target)
-      found
+      @match
     end
 
     # Was the last parse a success?
     def found?
-       @result[0].empty? && !@result[1].empty?
+       @prematch.empty? && !@match.empty?
     end
 
     # What was found by the last parse?
     def found
-      @result[1]
+      @match
     end
   end
 end

@@ -67,12 +67,6 @@ module FormatEngine
       has_prec? ? parms[1] : ""
     end
 
-    #Build up a regular expression for parsing.
-    def regex(base)
-      qualifier = has_width? ? "{1,#{width}}": "+"
-      Regexp.new("#{base}#{qualifier}")
-    end
-
     #Format onto the output string
     def do_format(spec_info)
       spec_info.fmt = self

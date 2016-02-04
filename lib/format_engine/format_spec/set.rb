@@ -9,6 +9,11 @@ module FormatEngine
     #The regular expression part of this set specification.
     attr_reader :regex
 
+    #The width parameter. Handled internally so this is always zero.
+    def width
+      0
+    end
+
     #Setup a variable format specification.
     def initialize(format)
       @raw = format

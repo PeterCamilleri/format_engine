@@ -13,11 +13,11 @@ class ScanTester < Minitest::Test
   def make_parser
     FormatEngine::Engine.new(
       "%d"    => lambda do
-        dst << found.to_i if parse(fmt.regex("\\d"))
+        dst << found.to_i if parse(/\d+/)
       end,
 
       "%*d"   => lambda do
-        parse(fmt.regex("\\d"))
+        parse(/\d+/)
       end,
 
       "%["    => lambda do

@@ -13,6 +13,11 @@ module FormatEngine
       @has_tail = @head != @literal
     end
 
+    #The width parameter. Handled literally so this is always zero.
+    def width
+      0
+    end
+
     # Is this literal supported by the engine? YES!
     def validate(_engine)
       self
