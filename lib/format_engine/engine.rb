@@ -33,8 +33,8 @@ module FormatEngine
     def do_format(src, format_spec_str)
       spec_info = SpecInfo.new(src, "", self)
 
-      due_process(spec_info, format_spec_str) do |fmt|
-        fmt.do_format(spec_info)
+      due_process(spec_info, format_spec_str) do |format|
+        format.do_format(spec_info)
       end
     end
 
@@ -46,21 +46,27 @@ module FormatEngine
     def do_parse(src, dst, parse_spec_str)
       spec_info = SpecInfo.new(src, dst, self)
 
-      due_process(spec_info, parse_spec_str) do |fmt|
-        fmt.do_parse(spec_info)
+      due_process(spec_info, parse_spec_str) do |format|
+        format.do_parse(spec_info)
       end
     end
+
+    private
 
     #Do the actual work of parsing the formatted input.
     #<br>Parameters
     #* spec_info - The state of the process.
     #* spec_str - The format specification string.
     #* block - A code block performed for each format specification.
-    def due_process(spec_info, spec_str, &block)
-      spec = FormatSpec.get_spec(spec_str).validate(self)
+    def due_process(spec_info, spec_str)
+      format_spec = FormatSpec.get_spec(spec_str).validate(self)
 
       spec_info.instance_exec(&self[:before])
-      spec.specs.each(&block)
+
+      format_spec.specs.each do |format|
+        break if yield(format) == :break
+      end
+
       spec_info.instance_exec(&self[:after])
 
       spec_info.dst
