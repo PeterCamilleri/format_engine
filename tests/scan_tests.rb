@@ -10,32 +10,23 @@ class ScanTester < Minitest::Test
   #Track mini-test progress.
   MinitestVisible.track self, __FILE__
 
+  DECIMAL = /[+-]?\d+/
+
   def make_parser
     FormatEngine::Engine.new(
-      "%d"    => lambda do
-        dst << found.to_i if parse(/\d+/)
-      end,
-
-      "%*d"   => lambda do
-        parse(/\d+/)
-      end,
-
-      "%["    => lambda do
-        dst << found if parse(fmt.regex)
-      end,
-
-      "%*["   => lambda do
-        parse(fmt.regex)
-      end)
+      "%d"  => lambda {parse(DECIMAL) ? dst << found.to_i : :break},
+      "%*d" => lambda {parse(DECIMAL) || :break},
+      "%["  => lambda {parse(fmt.regex) ? dst << found : :break},
+      "%*[" => lambda {parse(fmt.regex) || :break})
   end
 
   def test_that_it_can_scan
     engine = make_parser
     spec = "%d %2d %4d"
-    result = engine.do_parse("12 34 56", [], spec)
+    result = engine.do_parse("12 34 -56", [], spec)
 
     assert_equal(Array, result.class)
-    assert_equal([12, 34, 56] , result)
+    assert_equal([12, 34, -56] , result)
   end
 
   def test_missing_data
@@ -54,6 +45,15 @@ class ScanTester < Minitest::Test
 
     assert_equal(Array, result.class)
     assert_equal([12, 34, 56] , result)
+  end
+
+  def test_malformed_data
+    engine = make_parser
+    spec = "%d %d %d"
+    result = engine.do_parse("12 igloo 34 56", [], spec)
+
+    assert_equal(Array, result.class)
+    assert_equal([12] , result)
   end
 
   def test_skipped_data
