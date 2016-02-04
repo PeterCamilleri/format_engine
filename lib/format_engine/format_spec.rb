@@ -4,21 +4,6 @@ require_relative 'format_spec/literal'
 require_relative 'format_spec/variable'
 require_relative 'format_spec/set'
 
-# Format String Specification Syntax (BNF):
-#  spec = (text | item | set)+
-#  item = "%" flag* sign? (parm ("." parm)? )? command
-#  set  = "%" flag* parm? "[" chrs "]"
-#  flag = ( "~" | "@" | "#" | "&" | "^"  |
-#           "&" | "*" | "-" | "+" | "="  |
-#           "?" | "_" | "<" | ">" | "\\" |
-#           "/" | "." | "," | "|" | "!"  )
-#  sign = ("+" | "-")
-#  parm = ("0" .. "9" )+
-#  chrs = (not_any("]") | "\\" "]")+
-#  command = ("a" .. "z" | "A" .. "Z")
-#
-#  Sample: x = FormatSpec.get_spec "Elapsed = %*3.1H:%02M!"
-
 module FormatEngine
 
   #The format string parser.
@@ -27,7 +12,7 @@ module FormatEngine
     REGEX = %r{(?<flags> [~@#$^&*\=?_<>\\\/\.,\|!]*){0}
                (?<parms> [-+]?(\d+(\.\d+)?)?){0}
                (?<var> %\g<flags>\g<parms>[a-zA-Z]){0}
-               (?<set> %\g<flags>\d*\[([^\]]|\\\])+\]){0}
+               (?<set> %\g<flags>\d*\[([^\]\\]|\\.)+\]){0}
                \g<var> | \g<set>
               }x
 
