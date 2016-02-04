@@ -36,8 +36,8 @@ module FormatEngine
     attr_accessor :fmt
 
     # Set up the spec info.
-    def initialize(src, dst, fmt, engine, tmp = {})
-      @src, @dst, @fmt, @engine, @tmp = src, dst, fmt, engine, tmp
+    def initialize(src, dst, engine, tmp = {})
+      @src, @dst, @engine, @tmp = src, dst, engine, tmp
     end
 
     # Concatenate onto the formatted output string.
