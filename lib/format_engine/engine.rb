@@ -34,7 +34,7 @@ module FormatEngine
       spec_info = SpecInfo.new(src, "", self)
 
       due_process(spec_info, format_spec_str) do |format|
-        format.do_format(spec_info)
+        spec_info.do_format(format)
       end
     end
 
@@ -47,7 +47,7 @@ module FormatEngine
       spec_info = SpecInfo.new(src, dst, self)
 
       due_process(spec_info, parse_spec_str) do |format|
-        format.do_parse(spec_info)
+        spec_info.do_parse(format)
       end
     end
 

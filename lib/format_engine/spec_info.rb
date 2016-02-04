@@ -16,7 +16,7 @@ module FormatEngine
     attr_reader :tmp
 
     #The format specifier currently being processed.
-    attr_accessor :fmt
+    attr_reader :fmt
 
     # Set up the spec info.
     def initialize(src, dst, engine)
@@ -31,6 +31,16 @@ module FormatEngine
     # Set the result of this parsing operation.
     def set(obj)
       @dst = obj
+    end
+
+    #Pass the formatting action along to the current format element.
+    def do_format(fmt)
+      (@fmt = fmt).do_format(self)
+    end
+
+    #Pass the parsing action along to the current format element.
+    def do_parse(fmt)
+      (@fmt = fmt).do_parse(self)
     end
 
     # Parse the source string for a target string or regex or return nil.
