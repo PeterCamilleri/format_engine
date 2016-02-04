@@ -1,38 +1,21 @@
 module FormatEngine
 
   #A little package of info about the engine's progress.
-  #In the context of a formatting / parsing block, the
-  #"self" of that block is an instance of SpecInfo.
-  #<br>
-  #<br>The components of that instance Struct are:
-  #<br>
-  #<br>When Formatting:
-  #* src - The object that is the source of the data.
-  #* dst - A string that receives the formatted output.
-  #* fmt - The format specification currently being processed.
-  #* engine - The formatting engine. Mostly for access to the library.
-  #* tmp - A utility hash so that the formatting process can retain state.
-  #<br>Methods
-  #* cat - Append the string that follows to the formatted output.
-  #<br>
-  #<br>When Parsing:
-  #* src - A string that is the source of formatted input.
-  #* dst - The class of the object being created.
-  #* fmt - The parse specification currently being processed.
-  #* engine - The parsing engine. Mostly for access to the library.
-  #* tmp - A utility hash so that the parsing process can retain state.
-  #<br>Methods
-  #* set - Set the return value of the parsing operation to the value that follows.
-  #* parse - Look for the string or regex parm that follows. Return the data found or nil.
-  #* parse! - Like parse but raises an exception (with optional msg) if not found.
-  #* found? - Did the last parse succeed?
-  #* found - The text found by the last parse (or parse!) operation.
   class SpecInfo
 
-    # General readers
-    attr_reader :src, :dst, :engine, :tmp
+    #The source data for formatting, string input for parsing.
+    attr_reader :src
 
-    #General accessors
+    #The destination of the process.
+    attr_reader :dst
+
+    #The formatting engine.
+    attr_reader :engine
+
+    #State storage for the formatting/parsing process.
+    attr_reader :tmp
+
+    #The format specifier currently being processed.
     attr_accessor :fmt
 
     # Set up the spec info.
@@ -77,7 +60,5 @@ module FormatEngine
     def found
       @result[1]
     end
-
   end
-
 end
