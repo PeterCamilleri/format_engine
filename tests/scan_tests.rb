@@ -11,14 +11,20 @@ class ScanTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   DECIMAL = /[+-]?\d+/
+  HEX     = /[+-]?(0[xX])?[0-9a-fA-F]+/
   INTEGER = /[+-]?((0[xX][0-9a-fA-F]+)|(0[0-7]*)|([1-9]\d*))/
 
   def make_parser
     FormatEngine::Engine.new(
       "%d"  => lambda {parse(DECIMAL) ? dst << found.to_i : :break},
       "%*d" => lambda {parse(DECIMAL) || :break},
+
       "%i"  => lambda {parse(INTEGER) ? dst << Integer(found) : :break},
       "%*i" => lambda {parse(INTEGER) || :break},
+
+      "%x"  => lambda {parse(HEX) ? dst << found.hex : :break},
+      "%*x" => lambda {parse(HEX) || :break},
+
       "%["  => lambda {parse(fmt.regex) ? dst << found : :break},
       "%*[" => lambda {parse(fmt.regex) || :break})
   end
@@ -34,6 +40,13 @@ class ScanTester < Minitest::Test
     result = engine.do_parse("255 0377 0xFF", [], spec)
     assert_equal(Array, result.class)
     assert_equal([255, 255, 255] , result)
+
+    spec = "%x %[to] %x %[in] %x %[seconds]"
+    result = engine.do_parse("0 to dead in 2 seconds", [], spec)
+    assert_equal(Array, result.class)
+    assert_equal([0, "to", 57005, "in", 2, "seconds"] , result)
+
+
   end
 
   def test_missing_data
