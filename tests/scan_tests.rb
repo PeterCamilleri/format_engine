@@ -81,6 +81,10 @@ class ScanTester < Minitest::Test
     result = engine.do_parse("9.99 1.234e56 1e100", [], spec)
     assert_equal([9.99, 1.234e56, 1e100] , result)
 
+    spec = "%f%% %f%%"
+    result = engine.do_parse("85% 75%", [], spec)
+    assert_equal([85, 75] , result)
+
   end
 
   def test_missing_data

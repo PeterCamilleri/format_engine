@@ -13,7 +13,8 @@ module FormatEngine
                (?<parms> [-+]?(\d+(\.\d+)?)?){0}
                (?<var> %\g<flags>\g<parms>[a-zA-Z]){0}
                (?<set> %\g<flags>\d*\[([^\]\\]|\\.)+\]){0}
-               \g<var> | \g<set>
+               (?<per> %%){0}
+               \g<var> | \g<set> | \g<per>
               }x
 
     #Don't use new, use get_spec instead.
@@ -48,6 +49,7 @@ module FormatEngine
           @specs << case
                     when match_data[:var] then FormatVariable.new(mid)
                     when match_data[:set] then FormatSet.new(mid)
+                    when match_data[:per] then FormatLiteral.new("\%")
                     else fail "Impossible case in scan_spec."
                     end
           fmt_string = match_data.post_match
