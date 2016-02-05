@@ -64,6 +64,17 @@ module FormatEngine
       end
     end
 
+    #Grab some text
+    def grab(grab_width=nil)
+      if (width = grab_width || fmt.width) > 0
+        result, @src = src[0...width], src[width..-1] || ""
+      else
+        result, @src = src[0...1], src[1..-1] || ""
+      end
+
+      result
+    end
+
     # Parse the source string for a target string or regex or raise error.
     def parse!(target, msg = "#{target.inspect} not found")
       fail "Parse error: #{msg}" unless parse(target)

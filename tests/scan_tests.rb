@@ -21,6 +21,9 @@ class ScanTester < Minitest::Test
       "%b"  => lambda {parse(BINARY) ? dst << found.to_i(2) : :break},
       "%*b" => lambda {parse(BINARY) || :break},
 
+      "%c"  => lambda {dst << grab},
+      "%*c" => lambda {grab},
+
       "%d"  => lambda {parse(DECIMAL) ? dst << found.to_i : :break},
       "%*d" => lambda {parse(DECIMAL) || :break},
 
@@ -44,32 +47,30 @@ class ScanTester < Minitest::Test
     engine = make_parser
     spec = "%d %2d %4d"
     result = engine.do_parse("12 34 -56", [], spec)
-    assert_equal(Array, result.class)
     assert_equal([12, 34, -56] , result)
 
     spec = "%i %i %i %i %i"
     result = engine.do_parse("255 0b11111111 0377 0xFF 0 ", [], spec)
-    assert_equal(Array, result.class)
     assert_equal([255, 255, 255, 255, 0] , result)
 
     spec = "%o %o %o"
     result = engine.do_parse("7 10 377", [], spec)
-    assert_equal(Array, result.class)
     assert_equal([7, 8, 255] , result)
 
     spec = "%b %b %b"
     result = engine.do_parse("10 10011 11110000", [], spec)
-    assert_equal(Array, result.class)
     assert_equal([2, 19, 240] , result)
 
     spec = "%x %x %x %x %x"
     result = engine.do_parse("0 F FF FFF FFFF", [], spec)
-    assert_equal(Array, result.class)
     assert_equal([0, 15, 255, 4095, 65535] , result)
 
     spec = "%s %*s %s"
     result = engine.do_parse("Hello Silly World", [], spec)
-    assert_equal(Array, result.class)
+    assert_equal(["Hello", "World"] , result)
+
+    spec = "%5c %*5c %5c"
+    result = engine.do_parse("Hello Silly World", [], spec)
     assert_equal(["Hello", "World"] , result)
 
   end
