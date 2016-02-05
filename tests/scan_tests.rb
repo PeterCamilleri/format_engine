@@ -20,6 +20,7 @@ class ScanTester < Minitest::Test
   COMPLEX  = %r{(?<num> \d+(\.\d+)?([eE][+-]?\d+)?){0}
                 [+-]?\g<num>[+-]\g<num>[ij]
                }x
+  QUOTED   = /("([^\\"]|\\.)*")|('([^\\']|\\.)*')/
 
   def make_parser
     FormatEngine::Engine.new(
@@ -43,6 +44,11 @@ class ScanTester < Minitest::Test
 
       "%o"  => lambda {parse(OCTAL) ? dst << found.to_i(8) : :break},
       "%*o" => lambda {parse(OCTAL) || :break},
+
+      "%q"  => lambda do
+        parse(QUOTED) ? dst << found[1...-1].gsub(/\\./) {|seq| seq[-1]} : :break
+      end,
+      "%*q" => lambda {parse(QUOTED) || :break},
 
       "%r"  => lambda {parse(RATIONAL) ? dst << found.to_r : :break},
       "%*r" => lambda {parse(RATIONAL) || :break},
@@ -122,6 +128,9 @@ class ScanTester < Minitest::Test
     result = engine.do_parse("1+2i 3+4j -5e10-6.2i", [], spec)
     assert_equal([Complex('1+2i'), Complex('3+4j'), Complex('-5e10-6.2i')] , result)
 
+    spec = "%q %*q %q %q"
+    result = engine.do_parse("'quote' 'silly' \"un quote\" 'a \\''  ", [], spec)
+    assert_equal(["quote", "un quote", "a '"] , result)
   end
 
   def test_missing_data
