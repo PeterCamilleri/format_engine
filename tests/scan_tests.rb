@@ -14,7 +14,7 @@ class ScanTester < Minitest::Test
   HEX     = /[+-]?(0[xX])?\h+/
   OCTAL   = /[+-]?(0[oO])?[0-7]+/
   BINARY  = /[+-]?(0[bB])?[01]+/
-  INTEGER = /[+-]?((0[xX]\h+)|(0[bB]([01]+))|(0([oO]?[0-7]*)?)|([1-9]\d*))/
+  INTEGER = /[+-]?((0[xX]\h+)|(0[bB][01]+)|(0([oO]?[0-7]*)?)|([1-9]\d*))/
 
   def make_parser
     FormatEngine::Engine.new(
