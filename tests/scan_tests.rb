@@ -10,12 +10,13 @@ class ScanTester < Minitest::Test
   #Track mini-test progress.
   MinitestVisible.track self, __FILE__
 
-  DECIMAL = /[+-]?\d+/
-  HEX     = /[+-]?(0[xX])?\h+/
-  OCTAL   = /[+-]?(0[oO])?[0-7]+/
-  BINARY  = /[+-]?(0[bB])?[01]+/
-  INTEGER = /[+-]?((0[xX]\h+)|(0[bB][01]+)|(0[oO]?[0-7]*)|([1-9]\d*))/
-  FLOAT   = /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/
+  DECIMAL  = /[+-]?\d+/
+  HEX      = /[+-]?(0[xX])?\h+/
+  OCTAL    = /[+-]?(0[oO])?[0-7]+/
+  BINARY   = /[+-]?(0[bB])?[01]+/
+  INTEGER  = /[+-]?((0[xX]\h+)|(0[bB][01]+)|(0[oO]?[0-7]*)|([1-9]\d*))/
+  FLOAT    = /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/
+  RATIONAL = /[+-]?\d+\/\d+(r)?/
 
   def make_parser
     FormatEngine::Engine.new(
@@ -36,6 +37,9 @@ class ScanTester < Minitest::Test
 
       "%o"  => lambda {parse(OCTAL) ? dst << found.to_i(8) : :break},
       "%*o" => lambda {parse(OCTAL) || :break},
+
+      "%r"  => lambda {parse(RATIONAL) ? dst << found.to_r : :break},
+      "%*r" => lambda {parse(RATIONAL) || :break},
 
       "%s"  => lambda {parse(/\S+/) ? dst << found : :break},
       "%*s" => lambda {parse(/\S+/) || :break},
@@ -103,6 +107,10 @@ class ScanTester < Minitest::Test
     spec = "%u %u %u"
     result = engine.do_parse("12 34 -56", [], spec)
     assert_equal([12, 34] , result)
+
+    spec = "%r %r %r"
+    result = engine.do_parse("1/2 3/4r -5/6", [], spec)
+    assert_equal(['1/2'.to_r, '3/4'.to_r, '-5/6'.to_r] , result)
 
   end
 
