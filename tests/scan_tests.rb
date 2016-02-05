@@ -46,7 +46,7 @@ class ScanTester < Minitest::Test
       "%*o" => lambda {parse(OCTAL) || :break},
 
       "%q"  => lambda do
-        parse(QUOTED) ? dst << found[1...-1].gsub(/\\./) {|seq| seq[-1]} : :break
+        parse(QUOTED) ? dst << found[1..-2].gsub(/\\./) {|seq| seq[-1]} : :break
       end,
       "%*q" => lambda {parse(QUOTED) || :break},
 
