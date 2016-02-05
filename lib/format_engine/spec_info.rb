@@ -71,8 +71,8 @@ module FormatEngine
     end
 
     #Grab some text
-    def grab(grab_width=nil)
-      if (width = grab_width || fmt.width) > 0
+    def grab
+      if (width = fmt.width) > 0
         result, @src = src[0...width], src[width..-1] || ""
       elsif width == -1
         result, @src = src, ""
