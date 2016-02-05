@@ -30,6 +30,9 @@ class ScanTester < Minitest::Test
       "%o"  => lambda {parse(OCTAL) ? dst << found.to_i(8) : :break},
       "%*o" => lambda {parse(OCTAL) || :break},
 
+      "%s"  => lambda {parse(/\S+/) ? dst << found : :break},
+      "%*s" => lambda {parse(/\S+/) || :break},
+
       "%x"  => lambda {parse(HEX) ? dst << found.to_i(16) : :break},
       "%*x" => lambda {parse(HEX) || :break},
 
@@ -59,11 +62,15 @@ class ScanTester < Minitest::Test
     assert_equal(Array, result.class)
     assert_equal([2, 19, 240] , result)
 
-    spec = "%x %[to] %x %[in] %x %[seconds]"
-    result = engine.do_parse("0 to dead in 2 seconds", [], spec)
+    spec = "%x %x %x %x %x"
+    result = engine.do_parse("0 F FF FFF FFFF", [], spec)
     assert_equal(Array, result.class)
-    assert_equal([0, "to", 57005, "in", 2, "seconds"] , result)
+    assert_equal([0, 15, 255, 4095, 65535] , result)
 
+    spec = "%s %*s %s"
+    result = engine.do_parse("Hello Silly World", [], spec)
+    assert_equal(Array, result.class)
+    assert_equal(["Hello", "World"] , result)
 
   end
 
