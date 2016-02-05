@@ -11,7 +11,7 @@ class ScanTester < Minitest::Test
   MinitestVisible.track self, __FILE__
 
   DECIMAL = /[+-]?\d+/
-  INTEGER = /[+-]?(0x)?\d+/
+  INTEGER = /[+-]?((0[xX][0-9a-fA-F]+)|(0[0-7]*)|([1-9]\d*))/
 
   def make_parser
     FormatEngine::Engine.new(
@@ -31,9 +31,9 @@ class ScanTester < Minitest::Test
     assert_equal([12, 34, -56] , result)
 
     spec = "%i %i %i"
-    result = engine.do_parse("77 077 0x77", [], spec)
+    result = engine.do_parse("255 0377 0xFF", [], spec)
     assert_equal(Array, result.class)
-    assert_equal([77, 63, 119] , result)
+    assert_equal([255, 255, 255] , result)
   end
 
   def test_missing_data
