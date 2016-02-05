@@ -12,17 +12,21 @@ class ScanTester < Minitest::Test
 
   DECIMAL = /[+-]?\d+/
   HEX     = /[+-]?(0[xX])?[0-9a-fA-F]+/
-  INTEGER = /[+-]?((0[xX][0-9a-fA-F]+)|(0[0-7]*)|([1-9]\d*))/
+  OCTAL   = /[+-]?[0-7]+/
+  INTEGER = /[+-]?((0[xX][0-9a-fA-F]+)|(0[bB][01]+)|(0[0-7]*)|([1-9]\d*))/
 
   def make_parser
     FormatEngine::Engine.new(
       "%d"  => lambda {parse(DECIMAL) ? dst << found.to_i : :break},
       "%*d" => lambda {parse(DECIMAL) || :break},
 
-      "%i"  => lambda {parse(INTEGER) ? dst << Integer(found) : :break},
+      "%i"  => lambda {parse(INTEGER) ? dst << found.to_i(0) : :break},
       "%*i" => lambda {parse(INTEGER) || :break},
 
-      "%x"  => lambda {parse(HEX) ? dst << found.hex : :break},
+      "%o"  => lambda {parse(OCTAL) ? dst << found.to_i(8) : :break},
+      "%*o" => lambda {parse(OCTAL) || :break},
+
+      "%x"  => lambda {parse(HEX) ? dst << found.to_i(16) : :break},
       "%*x" => lambda {parse(HEX) || :break},
 
       "%["  => lambda {parse(fmt.regex) ? dst << found : :break},
@@ -36,10 +40,15 @@ class ScanTester < Minitest::Test
     assert_equal(Array, result.class)
     assert_equal([12, 34, -56] , result)
 
-    spec = "%i %i %i"
-    result = engine.do_parse("255 0377 0xFF", [], spec)
+    spec = "%i %i %i %i"
+    result = engine.do_parse("255 0b11111111 0377 0xFF", [], spec)
     assert_equal(Array, result.class)
-    assert_equal([255, 255, 255] , result)
+    assert_equal([255, 255, 255, 255] , result)
+
+    spec = "%o %o %o"
+    result = engine.do_parse("7 10 377", [], spec)
+    assert_equal(Array, result.class)
+    assert_equal([7, 8, 255] , result)
 
     spec = "%x %[to] %x %[in] %x %[seconds]"
     result = engine.do_parse("0 to dead in 2 seconds", [], spec)
