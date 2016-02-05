@@ -75,7 +75,7 @@ module FormatEngine
       if (width = grab_width || fmt.width) > 0
         result, @src = src[0...width], src[width..-1] || ""
       elsif width == -1
-        result, @src = src[0..-1], ""
+        result, @src = src, ""
       elsif width < 0
         result, @src = src[0..width], src[(width+1)..-1] || ""
       else
