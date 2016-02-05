@@ -17,6 +17,9 @@ class ScanTester < Minitest::Test
   INTEGER  = /[+-]?((0[xX]\h+)|(0[bB][01]+)|(0[oO]?[0-7]*)|([1-9]\d*))/
   FLOAT    = /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/
   RATIONAL = /[+-]?\d+\/\d+(r)?/
+  COMPLEX  = %r{(?<num> \d+(\.\d+)?([eE][+-]?\d+)?){0}
+                [+-]?\g<num>[+-]\g<num>[ij]
+               }x
 
   def make_parser
     FormatEngine::Engine.new(
@@ -34,6 +37,9 @@ class ScanTester < Minitest::Test
 
       "%i"  => lambda {parse(INTEGER) ? dst << found.to_i(0) : :break},
       "%*i" => lambda {parse(INTEGER) || :break},
+
+      "%j"  => lambda {parse(COMPLEX) ? dst << Complex(found) : :break},
+      "%*j" => lambda {parse(COMPLEX) || :break},
 
       "%o"  => lambda {parse(OCTAL) ? dst << found.to_i(8) : :break},
       "%*o" => lambda {parse(OCTAL) || :break},
@@ -97,8 +103,8 @@ class ScanTester < Minitest::Test
     assert_equal([42,  "X"] , result)
 
     spec = "%f %f %f"
-    result = engine.do_parse("9.99 1.234e56 1e100", [], spec)
-    assert_equal([9.99, 1.234e56, 1e100] , result)
+    result = engine.do_parse("9.99 1.234e56 -1e100", [], spec)
+    assert_equal([9.99, 1.234e56, -1e100] , result)
 
     spec = "%f%% %f%%"
     result = engine.do_parse("85% 75%", [], spec)
@@ -111,6 +117,10 @@ class ScanTester < Minitest::Test
     spec = "%r %r %r"
     result = engine.do_parse("1/2 3/4r -5/6", [], spec)
     assert_equal(['1/2'.to_r, '3/4'.to_r, '-5/6'.to_r] , result)
+
+    spec = "%j %j %j"
+    result = engine.do_parse("1+2i 3+4j -5e10-6.2i", [], spec)
+    assert_equal([Complex('1+2i'), Complex('3+4j'), Complex('-5e10-6.2i')] , result)
 
   end
 
