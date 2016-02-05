@@ -15,6 +15,7 @@ class ScanTester < Minitest::Test
   OCTAL   = /[+-]?(0[oO])?[0-7]+/
   BINARY  = /[+-]?(0[bB])?[01]+/
   INTEGER = /[+-]?((0[xX]\h+)|(0[bB][01]+)|(0[oO]?[0-7]*)|([1-9]\d*))/
+  FLOAT   = /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/
 
   def make_parser
     FormatEngine::Engine.new(
@@ -26,6 +27,9 @@ class ScanTester < Minitest::Test
 
       "%d"  => lambda {parse(DECIMAL) ? dst << found.to_i : :break},
       "%*d" => lambda {parse(DECIMAL) || :break},
+
+      "%f"  => lambda {parse(FLOAT) ? dst << found.to_f : :break},
+      "%*f" => lambda {parse(FLOAT) || :break},
 
       "%i"  => lambda {parse(INTEGER) ? dst << found.to_i(0) : :break},
       "%*i" => lambda {parse(INTEGER) || :break},
@@ -72,6 +76,10 @@ class ScanTester < Minitest::Test
     spec = "%5c %*5c %5c"
     result = engine.do_parse("Hello Silly World", [], spec)
     assert_equal(["Hello", "World"] , result)
+
+    spec = "%f %f %f"
+    result = engine.do_parse("9.99 1.234e56 1e100", [], spec)
+    assert_equal([9.99, 1.234e56, 1e100] , result)
 
   end
 
