@@ -40,6 +40,9 @@ class ScanTester < Minitest::Test
       "%s"  => lambda {parse(/\S+/) ? dst << found : :break},
       "%*s" => lambda {parse(/\S+/) || :break},
 
+      "%u"  => lambda {parse(/\d+/) ? dst << found.to_i : :break},
+      "%*u" => lambda {parse(/\d+/) || :break},
+
       "%x"  => lambda {parse(HEX) ? dst << found.to_i(16) : :break},
       "%*x" => lambda {parse(HEX) || :break},
 
@@ -96,6 +99,10 @@ class ScanTester < Minitest::Test
     spec = "%f%% %f%%"
     result = engine.do_parse("85% 75%", [], spec)
     assert_equal([85, 75] , result)
+
+    spec = "%u %u %u"
+    result = engine.do_parse("12 34 -56", [], spec)
+    assert_equal([12, 34] , result)
 
   end
 
