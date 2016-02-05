@@ -77,6 +77,14 @@ class ScanTester < Minitest::Test
     result = engine.do_parse("Hello Silly World", [], spec)
     assert_equal(["Hello", "World"] , result)
 
+    spec = "%i %-1c"
+    result = engine.do_parse("42 The secret is X", [], spec)
+    assert_equal([42, "The secret is X"] , result)
+
+    spec = "%i %-2c%c"
+    result = engine.do_parse("42 The secret is X", [], spec)
+    assert_equal([42, "The secret is ", "X"] , result)
+
     spec = "%f %f %f"
     result = engine.do_parse("9.99 1.234e56 1e100", [], spec)
     assert_equal([9.99, 1.234e56, 1e100] , result)
