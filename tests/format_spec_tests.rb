@@ -88,7 +88,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_option_variable_formats
-    "~@#&^&*-+=?_<>\\/.,|".each_char do |char|
+    "~@#&^&*-+=?_<>|".each_char do |char|
       test = FormatEngine::FormatSpec.get_spec "%#{char}A"
       assert_equal(Array, test.specs.class)
       assert_equal(1, test.specs.length)

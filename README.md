@@ -92,7 +92,7 @@ Format String Specification Syntax (BNF):
 * item ::= "%" flag* sign? (parm ("." parm)? )? command
 * set  ::= "%" flag* parm? "[" chrs "]"
 * flag ::= "~" | "@" | "#" | "&" | "^" | "&" | "*" | "=" | "?" | "_"
-| "<" | ">" | "\\" | "/" | "." | "," | "|" | "!"
+| "<" | ">" | "|" | "!"
 * sign ::= sign = ("+" | "-")
 * parm ::= ("0" .. "9")+
 * chrs ::= (not_any("]") | "\\" "]")+
