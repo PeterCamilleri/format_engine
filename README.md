@@ -115,9 +115,15 @@ creates the following format specification array:
  Variable("%S", ["-5", "2"]),
  Literal("!")]
 ```
-Where literals are processed as themselves. If that literal ends with a space,
-that space will match zero or more spaces. Variables are executed by looking
-up the format string in the library and executing the corresponding block.
+Where literals are processed as themselves, except:
+* If that literal ends with a space, that space will parse zero or more spaces.
+When formatting, the trailing space is just another space.
+* A %% will be treated as a single % sign.
+* A backslash character will take the character that follows as a literal
+character. Thus \\% is equivalent to %%.
+
+Variables are executed by looking up the format string (without the width or
+precision fields) in the library and executing the corresponding block.
 
 **Note:** If a format string does not correspond to an entry in the library,
 an exception occurs.

@@ -8,8 +8,8 @@ module FormatEngine
 
     # Set up a literal format specification.
     def initialize(literal)
-      @literal  = literal
-      @head     = literal.rstrip
+      @literal  = literal.gsub(/\\./) {|seq| seq[-1]}
+      @head     = @literal.rstrip
       @has_tail = @head != @literal
     end
 

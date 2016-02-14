@@ -16,6 +16,14 @@ class FormatSpecTester < Minitest::Test
     assert_equal("ABCDEFG!", test.specs[0].literal)
   end
 
+  def test_that_backslash_quotes
+    test = FormatEngine::FormatSpec.get_spec "ABC\\%DEFG!"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatLiteral, test.specs[0].class)
+    assert_equal("ABC%DEFG!", test.specs[0].literal)
+  end
+
   def test_that_it_scans_simple_variable_formats
     test = FormatEngine::FormatSpec.get_spec "%A"
     assert_equal(Array, test.specs.class)
