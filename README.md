@@ -86,17 +86,16 @@ puts cust.strfmt('%f %l is %a years old.')
 ```
 ## Format Specification
 
-Format String Specification Syntax (BNF):
+Format String Specification Syntax (Regex):
 
-* spec ::= (text | item | set)+
-* item ::= "%" flag* sign? (parm ("." parm)? )? command
-* set  ::= "%" flag* parm? "[" chrs "]"
-* flag ::= "~" | "@" | "#" | "&" | "^" | "&" | "*" | "=" | "?" | "_"
-| "<" | ">" | "|" | "!"
-* sign ::= sign = ("+" | "-")
-* parm ::= ("0" .. "9")+
-* chrs ::= (not_any("]") | "\\" "]")+
-* command ::= ("a" .. "z" | "A" .. "Z")
+    REGEX = %r{(?<lead>  (^|(?<=[^\\]))%){0}
+               (?<flags> [~@#$^&*\=?_<>|!]*){0}
+               (?<parms> [-+]?(\d+(\.\d+)?)?){0}
+               (?<var> \g<lead>\g<flags>\g<parms>[a-zA-Z]){0}
+               (?<set> \g<lead>\g<flags>\d*\[([^\]\\]|\\.)+\]){0}
+               (?<per> \g<lead>%){0}
+               \g<var> | \g<set> | \g<per>
+              }x
 
 ###Samples:
 
