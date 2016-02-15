@@ -97,6 +97,9 @@ Format String Specification Syntax (Regex):
                \g<var> | \g<set> | \g<per>
               }x
 
+Where _var_ describes a format specification, _set_ describes a regex
+set (or unset) specification, and _per_ describes a %% literal.
+
 ###Samples:
 
 The format specification:
