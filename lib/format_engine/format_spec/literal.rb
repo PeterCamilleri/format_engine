@@ -18,11 +18,6 @@ module FormatEngine
       0
     end
 
-    # Is this literal supported by the engine? YES!
-    def validate(_engine)
-      self
-    end
-
     # Format onto the output string
     def do_format(spec_info)
       spec_info.dst << @literal

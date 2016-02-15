@@ -62,13 +62,4 @@ class FormatterTester < Minitest::Test
     assert_raises(RuntimeError) { engine.do_format(obj, spec) }
   end
 
-  def test_that_it_validates_before_before
-    engine, obj, spec = make_all("Name = %f %j")
-    test = 1
-    engine[:before] = lambda { test = 2 }
-
-    assert_raises(RuntimeError) { engine.do_format(obj, spec) }
-    assert_equal(1, test)
-  end
-
 end

@@ -59,7 +59,7 @@ module FormatEngine
     #* spec_str - The format specification string.
     #* block - A code block performed for each format specification.
     def due_process(spec_info, spec_str)
-      format_spec = FormatSpec.get_spec(spec_str).validate(self)
+      format_spec = FormatSpec.get_spec(spec_str)
 
       spec_info.instance_exec(&self[:before])
 

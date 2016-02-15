@@ -190,16 +190,6 @@ class FormatSpecTester < Minitest::Test
     assert_equal(")", test.specs[6].literal)
   end
 
-  def test_that_it_validates
-    engine = { "%A" => true, "%B" => true }
-
-    test = FormatEngine::FormatSpec.get_spec "%A and %B"
-    assert_equal(test, test.validate(engine))
-
-    test = FormatEngine::FormatSpec.get_spec "%A and %C"
-    assert_raises(RuntimeError) { test.validate(engine) }
-  end
-
   def test_that_it_caches
     t1 = FormatEngine::FormatSpec.get_spec "%123.456A"
     t2 = FormatEngine::FormatSpec.get_spec "%123.456A"

@@ -31,12 +31,6 @@ module FormatEngine
       end
     end
 
-    #Is this variable supported by the engine?
-    def validate(engine)
-      fail "Unsupported tag = #{format.inspect}" unless engine[format]
-      self
-    end
-
     #Has a width been specified?
     def has_width?
       parms
@@ -69,12 +63,12 @@ module FormatEngine
 
     #Format onto the output string
     def do_format(spec_info)
-      spec_info.instance_exec(&spec_info.engine[format])
+      spec_info.instance_exec(&get_block(spec_info.engine))
     end
 
     #Parse from the input string
     def do_parse(spec_info)
-      spec_info.instance_exec(&spec_info.engine[format])
+      spec_info.instance_exec(&get_block(spec_info.engine))
     end
 
     #Inspect for debugging.
@@ -82,6 +76,14 @@ module FormatEngine
       "Variable(#{format.inspect}, #{parms.inspect})"
     end
 
+    private
+
+    #Get the execution block from the engine.
+    def get_block(engine)
+      block = engine[format]
+      fail "Unsupported tag = #{format.inspect}" unless block
+      block
+    end
   end
 
 end
