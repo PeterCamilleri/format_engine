@@ -72,14 +72,16 @@ module FormatEngine
 
     #Grab some text
     def grab
-      if (width = fmt.width) > 0
+      width = fmt.width
+
+      if width > 0
         result, @src = src[0...width], src[width..-1] || ""
+      elsif width == 0
+        result, @src = src[0...1], src[1..-1] || ""
       elsif width == -1
         result, @src = src, ""
-      elsif width < 0
-        result, @src = src[0..width], src[(width+1)..-1] || ""
       else
-        result, @src = src[0...1], src[1..-1] || ""
+        result, @src = src[0..width], src[(width+1)..-1] || ""
       end
 
       result
