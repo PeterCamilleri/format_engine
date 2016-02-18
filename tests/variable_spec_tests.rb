@@ -6,7 +6,7 @@ require          'minitest_visible'
 class VariableSpecTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   def test_the_parms
     test = FormatEngine::FormatVariable.new("%B")

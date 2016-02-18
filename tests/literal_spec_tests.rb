@@ -6,7 +6,7 @@ require          'minitest_visible'
 class LiteralSpecTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   def test_that_it_formats
     spec_info = FormatEngine::SpecInfo.new(nil, "", nil)

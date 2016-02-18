@@ -9,7 +9,7 @@ require_relative '../mocks/test_person_mock'
 class ParserTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   def make_parser
     FormatEngine::Engine.new(

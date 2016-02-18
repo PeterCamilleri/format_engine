@@ -8,7 +8,7 @@ require          'minitest_visible'
 class ScanTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   DECIMAL  = /[+-]?\d+/
   HEX      = /[+-]?(0[xX])?\h+/

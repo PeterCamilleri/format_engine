@@ -9,7 +9,7 @@ require_relative '../mocks/demo'
 class FormatEngineTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   def test_basic_formatting
     cust = Customer.new("Jane", "Doe", 21)

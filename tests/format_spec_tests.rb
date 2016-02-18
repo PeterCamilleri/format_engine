@@ -6,7 +6,7 @@ require          'minitest_visible'
 class FormatSpecTester < Minitest::Test
 
   #Track mini-test progress.
-  MinitestVisible.track self, __FILE__
+  include MinitestVisible
 
   def test_that_it_scans_literal_formats
     test = FormatEngine::FormatSpec.get_spec "ABCDEFG!"
