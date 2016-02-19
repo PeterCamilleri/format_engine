@@ -18,10 +18,10 @@ module FormatEngine
     def initialize(format)
       @raw = format
 
-      if format =~ /(\d+)(?=\[)/
-        qualifier = "{1,#{$MATCH}}"
-        @format   = $PREMATCH + "["
-        set       = $POSTMATCH
+      if (match_data = /(\d+,)?(\d+)(?=\[)/.match(format))
+        qualifier = "{#{match_data[1] || "1,"}#{match_data[2]}}"
+        @format   = match_data.pre_match + "["
+        set       = match_data.post_match
       elsif format =~ /\[/
         qualifier = "+"
         @format   = $PREMATCH + $MATCH
