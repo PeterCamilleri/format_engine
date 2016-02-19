@@ -9,7 +9,7 @@ class FormatSpecTester < Minitest::Test
   include MinitestVisible
 
   def test_that_it_scans_literal_formats
-    test = FormatEngine::FormatSpec.get_spec "ABCDEFG!"
+    test = FormatEngine::FormatSpec.new "ABCDEFG!"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatLiteral, test.specs[0].class)
@@ -17,7 +17,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_backslash_quotes
-    test = FormatEngine::FormatSpec.get_spec "ABC\\%DEFG!"
+    test = FormatEngine::FormatSpec.new "ABC\\%DEFG!"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatLiteral, test.specs[0].class)
@@ -25,7 +25,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_simple_variable_formats
-    test = FormatEngine::FormatSpec.get_spec "%A"
+    test = FormatEngine::FormatSpec.new "%A"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
@@ -34,44 +34,48 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_set_formats
-    test = FormatEngine::FormatSpec.get_spec "%[A]"
+    test = FormatEngine::FormatSpec.new "%[A]"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatSet, test.specs[0].class)
-    assert_equal("%[", test.specs[0].format)
+    assert_equal("%[", test.specs[0].short_name)
+    assert_equal("%[A]", test.specs[0].long_name)
     assert_equal(/[A]+/, test.specs[0].regex)
 
-    test = FormatEngine::FormatSpec.get_spec "%*[A]"
+    test = FormatEngine::FormatSpec.new "%*[A]"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatSet, test.specs[0].class)
-    assert_equal("%*[", test.specs[0].format)
+    assert_equal("%*[", test.specs[0].short_name)
+    assert_equal("%*[A]", test.specs[0].long_name)
     assert_equal(/[A]+/, test.specs[0].regex)
 
-    test = FormatEngine::FormatSpec.get_spec "%7[A]"
+    test = FormatEngine::FormatSpec.new "%7[A]"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatSet, test.specs[0].class)
-    assert_equal("%[", test.specs[0].format)
+    assert_equal("%[", test.specs[0].short_name)
+    assert_equal("%[A]", test.specs[0].long_name)
     assert_equal(/[A]{1,7}/, test.specs[0].regex)
 
-    test = FormatEngine::FormatSpec.get_spec "%*7[A]"
+    test = FormatEngine::FormatSpec.new "%*7[A]"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatSet, test.specs[0].class)
-    assert_equal("%*[", test.specs[0].format)
+    assert_equal("%*[", test.specs[0].short_name)
+    assert_equal("%*[A]", test.specs[0].long_name)
     assert_equal(/[A]{1,7}/, test.specs[0].regex)
   end
 
   def test_a_mixed_set
-    test = FormatEngine::FormatSpec.get_spec "%f %l %[age] %a"
+    test = FormatEngine::FormatSpec.new "%f %l %[age] %a"
     assert_equal(Array, test.specs.class)
     assert_equal(7, test.specs.length)
 
   end
 
   def test_that_it_scans_tab_seperators
-    test = FormatEngine::FormatSpec.get_spec "%A\t%B"
+    test = FormatEngine::FormatSpec.new "%A\t%B"
     assert_equal(Array, test.specs.class)
     assert_equal(3, test.specs.length)
 
@@ -89,7 +93,7 @@ class FormatSpecTester < Minitest::Test
 
   def test_that_it_scans_option_variable_formats
     "~@#&^&*-+=?_<>|".each_char do |char|
-      test = FormatEngine::FormatSpec.get_spec "%#{char}A"
+      test = FormatEngine::FormatSpec.new "%#{char}A"
       assert_equal(Array, test.specs.class)
       assert_equal(1, test.specs.length)
       assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
@@ -103,7 +107,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_single_variable_formats
-    test = FormatEngine::FormatSpec.get_spec "%123A"
+    test = FormatEngine::FormatSpec.new "%123A"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
@@ -120,7 +124,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_that_it_scans_double_variable_formats
-    test = FormatEngine::FormatSpec.get_spec "%123.456A"
+    test = FormatEngine::FormatSpec.new "%123.456A"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
@@ -138,7 +142,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_negative_variable_formats
-    test = FormatEngine::FormatSpec.get_spec "%-123.456A"
+    test = FormatEngine::FormatSpec.new "%-123.456A"
     assert_equal(Array, test.specs.class)
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
@@ -156,7 +160,7 @@ class FormatSpecTester < Minitest::Test
   end
 
   def test_multipart_formats
-    test = FormatEngine::FormatSpec.get_spec "T(%+02A:%3B:%4.1C)"
+    test = FormatEngine::FormatSpec.new "T(%+02A:%3B:%4.1C)"
 
     assert_equal(Array, test.specs.class)
     assert_equal(7, test.specs.length)
@@ -188,18 +192,6 @@ class FormatSpecTester < Minitest::Test
 
     assert_equal(FormatEngine::FormatLiteral, test.specs[6].class)
     assert_equal(")", test.specs[6].literal)
-  end
-
-  def test_that_it_caches
-    t1 = FormatEngine::FormatSpec.get_spec "%123.456A"
-    t2 = FormatEngine::FormatSpec.get_spec "%123.456A"
-    assert(t1.object_id == t2.object_id)
-
-    t3 = FormatEngine::FormatSpec.get_spec "%123.457A"
-    assert(t1.object_id != t3.object_id)
-
-    t4 = FormatEngine::FormatSpec.get_spec "%123.457A"
-    assert(t4.object_id == t3.object_id)
   end
 
 end

@@ -9,17 +9,17 @@ class SetSpecTester < Minitest::Test
   include MinitestVisible
 
   def test_the_parms
-    test = FormatEngine::FormatSet.new("%[B]")
+    test = FormatEngine::FormatSet.new("%[ABC]")
     assert_equal(0, test.width)
-    assert_equal(/[B]+/, test.regex)
+    assert_equal(/[ABC]+/, test.regex)
 
-    test = FormatEngine::FormatSet.new("%10[B]")
+    test = FormatEngine::FormatSet.new("%10[ABC]")
     assert_equal(0, test.width)
-    assert_equal(/[B]{1,10}/, test.regex)
+    assert_equal(/[ABC]{1,10}/, test.regex)
 
-    test = FormatEngine::FormatSet.new("%5,10[B]")
+    test = FormatEngine::FormatSet.new("%5,10[ABC]")
     assert_equal(0, test.width)
-    assert_equal(/[B]{5,10}/, test.regex)
+    assert_equal(/[ABC]{5,10}/, test.regex)
 
   end
 end

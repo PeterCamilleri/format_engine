@@ -52,7 +52,7 @@ module FormatEngine
         head, tail = src, ""
       end
 
-      #Do the parse on the input string.
+      #Do the parse on the input string or regex.
       @prematch, @match, @postmatch = head.partition(target)
 
       #Analyze the results.

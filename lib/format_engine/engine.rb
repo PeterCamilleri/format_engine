@@ -9,6 +9,7 @@ module FormatEngine
     #Set up base data structures.
     def initialize(library)
       @library = library
+      @spec_pool = {}
 
       #Set up defaults for pre and post amble blocks.
       nop = lambda { }
@@ -59,7 +60,7 @@ module FormatEngine
     #* spec_str - The format specification string.
     #* block - A code block performed for each format specification.
     def due_process(spec_info, spec_str)
-      format_spec = FormatSpec.get_spec(spec_str)
+      format_spec = get_spec(spec_str)
 
       spec_info.instance_exec(&self[:before])
 
@@ -70,6 +71,11 @@ module FormatEngine
       spec_info.instance_exec(&self[:after])
 
       spec_info.dst
+    end
+
+    #Get a format specification with caching.
+    def get_spec(spec_str)
+      @spec_pool[spec_str] ||= FormatSpec.new(spec_str)
     end
 
   end

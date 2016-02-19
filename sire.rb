@@ -29,6 +29,10 @@ class SIRE
   #Set up the interactive session.
   def initialize
     @_done = false
+    @_edit = MiniReadline::Readline.new(history: true,
+                                        auto_complete: true,
+                                        auto_source: MiniReadline::QuotedFileFolderSource,
+                                        eoi_detect: true)
 
     puts "Welcome to a Simple Interactive Ruby Environment\n"
     puts "FormatEngine version = #{FormatEngine::VERSION}"
@@ -69,12 +73,12 @@ class SIRE
   def run_sire
     until @_done
       @_break = false
-      exec_line(MiniReadline.readline('SIRE>', true))
+      exec_line(@_edit.readline(prompt: 'SIRE>'))
     end
 
     puts "\n\n"
 
-  rescue Interrupt => e
+  rescue MiniReadlineEOI, Interrupt => e
     puts "\nInterrupted! Program Terminating."
   end
 
