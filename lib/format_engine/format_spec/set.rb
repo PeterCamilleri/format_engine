@@ -49,7 +49,7 @@ module FormatEngine
 
     #Inspect for debugging.
     def inspect
-      "Set(#{format.inspect}, #{regex.inspect})"
+      "Set(#{@raw.inspect}, #{regex.inspect})"
     end
 
   end
