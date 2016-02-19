@@ -38,6 +38,13 @@ module FormatEngine
       @regex = Regexp.new("#{set}#{qualifier}")
     end
 
+    #Is this format item supported by the engine's library?
+    def validate(engine)
+      @block = engine[@long_name] || engine[@short_name]
+      fail "Unsupported tag = #{@raw.inspect}" unless @block
+      true
+    end
+
     #Format onto the output string
     def do_format(spec_info)
       fail "The tag %{@raw} may not be used in formatting."
@@ -45,9 +52,7 @@ module FormatEngine
 
     #Parse from the input string
     def do_parse(spec_info)
-      block = spec_info.engine[@long_name] || spec_info.engine[@short_name]
-      fail "Unsupported tag = #{@raw.inspect}" unless block
-      spec_info.instance_exec(&block)
+      spec_info.instance_exec(&@block)
     end
 
     #Inspect for debugging.

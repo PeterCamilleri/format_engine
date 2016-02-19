@@ -17,8 +17,6 @@ module FormatEngine
                \g<var> | \g<set> | \g<per>
               }x
 
-
-
     #The array of specifications that were extracted.
     attr_reader :specs
 
@@ -26,6 +24,12 @@ module FormatEngine
     def initialize(fmt_string)
       @specs = []
       scan_spec(fmt_string)
+    end
+
+    # Validate the specs of this format against the engine.
+    def validate(engine)
+      specs.each {|item| item.validate(engine)}
+      self
     end
 
     #Scan the format string extracting literals and variables.

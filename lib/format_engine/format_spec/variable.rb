@@ -61,14 +61,21 @@ module FormatEngine
       has_prec? ? parms[1] : ""
     end
 
+    #Is this format item supported by the engine's library?
+    def validate(engine)
+      @block = engine[format]
+      fail "Unsupported tag = #{format.inspect}" unless @block
+      true
+    end
+
     #Format onto the output string
     def do_format(spec_info)
-      spec_info.instance_exec(&get_block(spec_info.engine))
+      spec_info.instance_exec(&@block)
     end
 
     #Parse from the input string
     def do_parse(spec_info)
-      spec_info.instance_exec(&get_block(spec_info.engine))
+      spec_info.instance_exec(&@block)
     end
 
     #Inspect for debugging.
@@ -76,14 +83,6 @@ module FormatEngine
       "Variable(#{format.inspect}, #{parms.inspect})"
     end
 
-    private
-
-    #Get the execution block from the engine.
-    def get_block(engine)
-      block = engine[format]
-      fail "Unsupported tag = #{format.inspect}" unless block
-      block
-    end
   end
 
 end

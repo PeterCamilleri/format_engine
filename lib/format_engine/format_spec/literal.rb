@@ -18,6 +18,11 @@ module FormatEngine
       0
     end
 
+    #Is this format item supported by the engine's library?
+    def validate(_engine)
+      true
+    end
+
     # Format onto the output string
     def do_format(spec_info)
       spec_info.dst << @literal

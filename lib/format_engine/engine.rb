@@ -75,7 +75,7 @@ module FormatEngine
 
     #Get a format specification with caching.
     def get_spec(spec_str)
-      @spec_pool[spec_str] ||= FormatSpec.new(spec_str)
+      @spec_pool[spec_str] ||= FormatSpec.new(spec_str).validate(self)
     end
 
   end
