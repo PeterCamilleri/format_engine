@@ -88,12 +88,18 @@ puts cust.strfmt('%f %l is %a years old.')
 
 Format String Specification Syntax (Regex):
 
+The parsing of format specification strings is based on the following regular
+expression. This expression is applied repeatedly until all the specifications
+have been extracted from the input string.
+
     REGEX = %r{(?<lead>  (^|(?<=[^\\]))%){0}
-               (?<flags> [~@#$^&*\=?_<>|!]*){0}
+               (?<flags> [~@#$^&*=?_<>|!]*){0}
                (?<parms> [-+]?(\d+(\.\d+)?)?){0}
+
                (?<var> \g<lead>\g<flags>\g<parms>[a-zA-Z]){0}
                (?<set> \g<lead>\g<flags>\d*\[([^\]\\]|\\.)+\]){0}
                (?<per> \g<lead>%){0}
+
                \g<var> | \g<set> | \g<per>
               }x
 
