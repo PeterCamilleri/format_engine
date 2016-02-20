@@ -159,8 +159,10 @@ are only ever used when parsing, never for formatting. Sets are executed by
 first looking up their long name, listed first, and then if the long name is not
 found, their short name, listed second is tried.
 
-**Note:** If a format string does not correspond to an entry in the library,
-an exception occurs.
+**Note:** If a format specification does not correspond to an entry in the
+library, an exception occurs. For example
+
+    RuntimeError detected: Unsupported tag = "%!!!d"
 
 ## Formatting / Parsing Blocks
 
