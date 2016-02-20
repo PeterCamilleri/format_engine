@@ -108,12 +108,13 @@ A format specification of the classical form:
     %[flags][+/-][width[.precision]]letter
 
 ### Set
-A reguluar expression set (or un-set) of the form:
+A reguluar expression set (or un-set), used for parsing only, of the form:
 
-  %[flags][[min_width,]max_width]"["[^]set_chars"]"
+    %[flags][[min_width,]max_width]"["[^]set_chars"]"
 
 ### Per
-A %% which evaluates to a literal character %.
+A %% which evaluates to a literal character %. This is the old school
+alternative to \\% which is preferred.
 
 ### Literal
 Text in between the various format specifications is treated as literal text.
