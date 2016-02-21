@@ -3,6 +3,7 @@
 require_relative 'format_spec/literal'
 require_relative 'format_spec/variable'
 require_relative 'format_spec/set'
+require_relative 'format_spec/rgx'
 
 module FormatEngine
 
