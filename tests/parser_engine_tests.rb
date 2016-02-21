@@ -23,7 +23,8 @@ class ParserTester < Minitest::Test
       "%["    => lambda { parse! fmt.regex },
       "%[A-Z]"=> lambda { tmp[:ln] = found if parse! fmt.regex },
       "%/"    => lambda { parse! fmt.regex },
-      "%/[A-Z]+/"=> lambda { tmp[:ln] = found if parse! fmt.regex },
+      "%/[A-Z]+/i"=>
+                 lambda { tmp[:ln] = found if parse! fmt.regex },
       "%t"    => lambda { parse("\t") },
       "%!t"   => lambda { parse!("\t") },
 
@@ -128,12 +129,12 @@ class ParserTester < Minitest::Test
     assert_equal("Jones", result.last_name)
     assert_equal(55, result.age)
 
-    spec =  "%f %/[A-Z]+/ %a"
-    result = engine.do_parse("Squidly JONES 55", TestPerson, spec)
+    spec =  "%f %/[A-Z]+/i %a"
+    result = engine.do_parse("Squidly Jones 55", TestPerson, spec)
 
     assert_equal(TestPerson, result.class)
     assert_equal("Squidly", result.first_name)
-    assert_equal("JONES", result.last_name)
+    assert_equal("Jones", result.last_name)
     assert_equal(55, result.age)
   end
 

@@ -7,7 +7,7 @@ module FormatEngine
                (?<flags> [~@#$^&*=?_<>|!]*){0}
                (?<var> \g<lead>\g<flags>[-+]?(\d+(\.\d+)?)?[a-zA-Z]){0}
                (?<set> \g<lead>\g<flags>(\d+(,\d+)?)?\[([^\]\\]|\\.)+\]){0}
-               (?<rgx> \g<lead>\g<flags>\/([^\\ \/]|\\.)*\/){0}
+               (?<rgx> \g<lead>\g<flags>\/([^\\ \/]|\\.)*\/([imx]*)){0}
                (?<per> \g<lead>%){0}
                \g<var> | \g<set> | \g<rgx> | \g<per>
               }x
