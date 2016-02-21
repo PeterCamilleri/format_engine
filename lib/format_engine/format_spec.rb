@@ -1,5 +1,6 @@
 #Analysis of format/parse specification strings.
 
+require_relative 'format_spec/parse_regex'
 require_relative 'format_spec/literal'
 require_relative 'format_spec/variable'
 require_relative 'format_spec/set'
@@ -9,14 +10,6 @@ module FormatEngine
 
   #The format string parser.
   class FormatSpec
-    #The regex used to parse variable specifications.
-    REGEX = %r{(?<lead>  (^|(?<=[^\\]))%){0}
-               (?<flags> [~@#$^&*=?_<>|!]*){0}
-               (?<var> \g<lead>\g<flags>[-+]?(\d+(\.\d+)?)?[a-zA-Z]){0}
-               (?<set> \g<lead>\g<flags>(\d+(,\d+)?)?\[([^\]\\]|\\.)+\]){0}
-               (?<per> \g<lead>%){0}
-               \g<var> | \g<set> | \g<per>
-              }x
 
     #The array of specifications that were extracted.
     attr_reader :specs
@@ -44,6 +37,7 @@ module FormatEngine
           @specs << case
                     when match_data[:var] then FormatVariable.new(mid)
                     when match_data[:set] then FormatSet.new(mid)
+                    when match_data[:rgx] then FormatRgx.new(mid)
                     when match_data[:per] then FormatLiteral.new("\%")
                     else fail "Impossible case in scan_spec."
                     end

@@ -194,4 +194,14 @@ class FormatSpecTester < Minitest::Test
     assert_equal(")", test.specs[6].literal)
   end
 
+  def test_that_it_scans_regex_formats
+    test = FormatEngine::FormatSpec.new "%/ABC/"
+    assert_equal(Array, test.specs.class)
+    assert_equal(1, test.specs.length)
+    assert_equal(FormatEngine::FormatRgx, test.specs[0].class)
+    assert_equal(/ABC/, test.specs[0].regex)
+  end
+
+
+
 end
