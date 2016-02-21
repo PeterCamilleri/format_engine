@@ -23,13 +23,12 @@ module FormatEngine
       pre, _, post = format.partition('/')
       @short_name = pre + '/'
 
-      exp, _, options = post.partition('/')
-
+      exp, _, options = post.partition(/(?<=[^\\])\// )
       opt = (options.include?('x') ? Regexp::EXTENDED   : 0) |
             (options.include?('i') ? Regexp::IGNORECASE : 0) |
             (options.include?('m') ? Regexp::MULTILINE  : 0)
 
-      @regex = Regexp.new(exp, opt)
+      @regex = Regexp.new(exp.gsub(/\\\//, '/'), opt)
     end
 
     #Is this format item supported by the engine's library?

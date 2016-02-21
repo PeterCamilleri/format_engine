@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
@@ -48,6 +50,11 @@ class RgxSpecTester < Minitest::Test
     assert_equal(0, test.width)
     assert_equal(/ABC/ixm, test.regex)
     assert_equal('Regex("%/ABC/xim", "%/", /ABC/mix)', test.inspect)
+
+    test = FormatEngine::FormatRgx.new("%/A\\/C/")
+    assert_equal(0, test.width)
+    assert_equal('Regex("%/A\\\\/C/", "%/", /A\/C/)', test.inspect)
+    assert_equal(/A\/C/, test.regex)
 
   end
 end
