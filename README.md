@@ -164,7 +164,7 @@ precision fields) in the library and executing the corresponding block. The
 format string can be seen in the above sample as the first string in the
 Variable
 
-Sets and Regex work by looking into the input string with their regular
+Sets and Regexes work by looking into the input string with their regular
 expression. Both are only ever used when parsing, never for formatting.
 They are executed by first looking up their long name, listed first, and
 then if the long name is not found, their short name, listed second is tried.
