@@ -97,9 +97,10 @@ have been extracted from the input string.
 
                (?<var> \g<lead>\g<flags>[-+]?(\d+(\.\d+)?)?[a-zA-Z]){0}
                (?<set> \g<lead>\g<flags>(\d+(,\d+)?)?\[([^\]\\]|\\.)+\]){0}
+               (?<rgx> \g<lead>\g<flags>\/([^\\ \/]|\\.)*\/([imx]*)){0}
                (?<per> \g<lead>%){0}
 
-               \g<var> | \g<set> | \g<per>
+               \g<var> | \g<set> | \g<rgx> | \g<per>
               }x
 
 ### Var
@@ -108,9 +109,16 @@ A format specification of the classical form:
     %[flags][+/-][width[.precision]]letter
 
 ### Set
-A reguluar expression set (or un-set), used for parsing only, of the form:
+A regular expression set (or un-set), used for parsing only, of the form:
 
     %[flags][[min_width,]max_width]"["[^]set_chars"]"
+
+### Rgx
+A full blown regular expression, used for parsing only, of the form:
+
+    %[flags]/regex stuff goes here/[options]
+
+Supported options are i, m, and x.
 
 ### Per
 A %% which evaluates to a literal character %. This is the old school
@@ -123,12 +131,12 @@ Text in between the various format specifications is treated as literal text.
 
 The format specification:
 ```ruby
-"Elapsed = %*02H:%M:%-5.2S %d%% %@1[!?]"
+"Elapsed = %*02H:%M:%-5.2S %d%% %@1[!?] %/a+b+c+/i"
 ```
 creates the following format specification array:
 
 ```ruby
-#<FormatEngine::FormatSpec:0x1b4e288
+#<FormatEngine::FormatSpec:0x1be2140
  @specs=
   [Literal("Elapsed = "),
    Variable("%*H", ["02"]),
@@ -140,7 +148,9 @@ creates the following format specification array:
    Variable("%d", nil),
    Literal("%"),
    Literal(" "),
-   Set("%@[!?]", "%@[", /[!?]{1,1}/)]>
+   Set("%@[!?]", "%@[", /[!?]{1,1}/),
+   Literal(" "),
+   Regex("%/a+b+c+/i", "%/", /a+b+c+/i)]>
 ```
 Where literals are processed as themselves, except:
 * If that literal ends with a space, that space will parse zero or more spaces.
@@ -154,10 +164,10 @@ precision fields) in the library and executing the corresponding block. The
 format string can be seen in the above sample as the first string in the
 Variable
 
-Sets work by looking into the input string with their regular expression. Sets
-are only ever used when parsing, never for formatting. Sets are executed by
-first looking up their long name, listed first, and then if the long name is not
-found, their short name, listed second is tried.
+Sets and Regex work by looking into the input string with their regular
+expression. Both are only ever used when parsing, never for formatting.
+They are executed by first looking up their long name, listed first, and
+then if the long name is not found, their short name, listed second is tried.
 
 **Note:** If a format specification does not correspond to an entry in the
 library, an exception occurs. For example

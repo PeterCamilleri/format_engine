@@ -13,20 +13,21 @@ class ParserTester < Minitest::Test
 
   def make_parser
     FormatEngine::Engine.new(
-      "%a"    => lambda { tmp[:age] = found.to_i if parse(/\d+/) },
-      "%f"    => lambda { tmp[:fn] = found if parse(/(\w)+/) },
-      "%F"    => lambda { tmp[:fn] = found.upcase if parse(/(\w)+/) },
-      "%-F"   => lambda { tmp[:fn] = found.capitalize if parse(/(\w)+/) },
-      "%l"    => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
-      "%L"    => lambda { tmp[:ln] = found.upcase if parse(/(\w)+/) },
-      "%-L"   => lambda { tmp[:ln] = found.capitalize if parse(/(\w)+/) },
-      "%["    => lambda { parse! fmt.regex },
-      "%[A-Z]"=> lambda { tmp[:ln] = found if parse! fmt.regex },
-      "%/"    => lambda { parse! fmt.regex },
-      "%/[A-Z]+/i"=>
-                 lambda { tmp[:ln] = found if parse! fmt.regex },
-      "%t"    => lambda { parse("\t") },
-      "%!t"   => lambda { parse!("\t") },
+      "%a"  => lambda { tmp[:age] = found.to_i if parse(/\d+/) },
+      "%f"  => lambda { tmp[:fn] = found if parse(/(\w)+/) },
+      "%F"  => lambda { tmp[:fn] = found.upcase if parse(/(\w)+/) },
+      "%-F" => lambda { tmp[:fn] = found.capitalize if parse(/(\w)+/) },
+      "%l"  => lambda { tmp[:ln] = found if parse(/(\w)+/ ) },
+      "%L"  => lambda { tmp[:ln] = found.upcase if parse(/(\w)+/) },
+      "%-L" => lambda { tmp[:ln] = found.capitalize if parse(/(\w)+/) },
+      "%["  => lambda { parse! fmt.regex },
+      "%[A-Z]" =>
+               lambda { tmp[:ln] = found if parse! fmt.regex },
+      "%/"  => lambda { parse! fmt.regex },
+      "%/[A-Z]+/i" =>
+               lambda { tmp[:ln] = found if parse! fmt.regex },
+      "%t"  => lambda { parse("\t") },
+      "%!t" => lambda { parse!("\t") },
 
       :after  => lambda do
         set dst.new(*[tmp[:fn], tmp[:ln], tmp[:age]].delete_if(&:nil?))
