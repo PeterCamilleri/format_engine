@@ -17,7 +17,6 @@ class FormatEngineTester < Minitest::Test
     assert_equal("Jane, Doe 21", cust.strfmt("%f, %l %a"))
   end
 
-
   def test_basic_parsing
     cust = Customer.strprs("Jane, Doe 21", "%f, %l %a")
 

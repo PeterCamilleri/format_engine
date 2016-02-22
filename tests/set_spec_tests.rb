@@ -21,6 +21,10 @@ class SetSpecTester < Minitest::Test
     assert_equal(0, test.width)
     assert_equal(/[ABC]{5,10}/, test.regex)
 
+    test = FormatEngine::FormatSet.new("%0,10[ABC]")
+    assert_equal(0, test.width)
+    assert_equal(/[ABC]{0,10}/, test.regex)
+
   end
 
   def test_unsupported_methods
