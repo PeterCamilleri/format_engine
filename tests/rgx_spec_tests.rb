@@ -57,4 +57,17 @@ class RgxSpecTester < Minitest::Test
     assert_equal(/A\/C/, test.regex)
 
   end
+
+  def test_unsupported_methods
+    test = FormatEngine::FormatRgx.new("%/ABC/")
+
+    assert_raises() {test.has_width?}
+    assert_raises() {test.width_str}
+    assert_raises() {test.has_prec?}
+    assert_raises() {test.prec}
+    assert_raises() {test.prec_str}
+    assert_raises() {test.parm_str}
+  end
+
+
 end

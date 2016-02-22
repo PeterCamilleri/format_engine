@@ -46,4 +46,11 @@ class VariableSpecTester < Minitest::Test
     assert_equal("-10.5", test.parm_str)
 
   end
+
+  def test_unsupported_methods
+    test = FormatEngine::FormatVariable.new("%B")
+
+    assert_raises() {test.regex}
+  end
+
 end

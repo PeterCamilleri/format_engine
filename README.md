@@ -208,7 +208,7 @@ Methods
 * found? - Did the last parse succeed?
 * found - The text found by the last parse (or parse!) operation.
 
-###Format Specifier Attributes
+###Variable Format Specifier Attributes
 The format specifier, used in both formatting and parsing and accessed as the
 fmt attribute, has itself, the following attributes:
 * has_width? - Was a width specified?
@@ -218,6 +218,10 @@ fmt attribute, has itself, the following attributes:
 * prec - The precision parameter or 0 if not specified.
 * prec_str - The actual precision text or an empty string.
 * parm_str - The actual parameter (width and precision) text or an empty string.
+
+###Set and Regex Format Specifier Attributes
+* width - Always 0.
+* regex - The internal regex compiled for this specification
 
 ## Contributing
 
