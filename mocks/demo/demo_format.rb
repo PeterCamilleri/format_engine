@@ -6,10 +6,13 @@ class Customer
   ##
   #The specification of the formatter method of the demo \Customer class.
 
-  attr_formatter :strfmt,
+  @formatter_engine = attr_formatter :strfmt,
   {"%a"  => lambda {cat "%#{fmt.width_str}d" % src.age },
    "%f"  => lambda {cat "%#{fmt.width_str}s" % src.first_name },
    "%l"  => lambda {cat "%#{fmt.width_str}s" % src.last_name  }
   }
 
+  class << self
+    attr_reader :formatter_engine
+  end
 end

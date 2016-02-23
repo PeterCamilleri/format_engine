@@ -17,6 +17,8 @@ module FormatEngine
     #* spec_str - A format specification string with %x etc qualifiers.
     #<br>Meta-method Returns
     #* An instance of the host class.
+    #<br>Returns
+    #* The format engine used by this method.
     def attr_parser(method, library)
       engine = Engine.new(library)
 
@@ -25,6 +27,7 @@ module FormatEngine
         engine.do_parse(src, self, spec_str)
       end
 
+      engine
     end
 
   end

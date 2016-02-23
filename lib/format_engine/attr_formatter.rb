@@ -16,6 +16,8 @@ module FormatEngine
     #* spec_str - A format specification string with %x etc qualifiers.
     #<br>Meta-method Returns
     #* A formatted string
+    #<br>Returns
+    #* The format engine used by this method.
     def attr_formatter(method, library)
       engine = Engine.new(library)
 
@@ -24,6 +26,7 @@ module FormatEngine
         engine.do_format(self, spec_str)
       end
 
+      engine
     end
 
   end

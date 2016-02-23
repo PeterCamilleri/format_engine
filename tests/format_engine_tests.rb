@@ -11,6 +11,11 @@ class FormatEngineTester < Minitest::Test
   #Track mini-test progress.
   include MinitestVisible
 
+  def test_that_engines_are_returned
+    assert_equal(FormatEngine::Engine, Customer.formatter_engine.class)
+    assert_equal(FormatEngine::Engine, Customer.parser_engine.class)
+  end
+
   def test_basic_formatting
     cust = Customer.new("Jane", "Doe", 21)
 
