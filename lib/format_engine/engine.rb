@@ -6,10 +6,14 @@ module FormatEngine
     #The parse library
     attr_reader :library
 
+    #Any un-parsed string data.
+    attr_reader :unparsed
+
     #Set up base data structures.
     def initialize(library)
       @library = library
       @spec_pool = {}
+      @unparsed = ""
 
       #Set up defaults for pre and post amble blocks.
       nop = lambda { }
@@ -50,6 +54,9 @@ module FormatEngine
       due_process(spec_info, parse_spec_str) do |format|
         spec_info.do_parse(format)
       end
+
+    ensure
+      @unparsed = spec_info.src
     end
 
     private

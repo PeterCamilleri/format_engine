@@ -67,6 +67,11 @@ instance of the class. This takes the form:
 
     AClass.method_name(input_string, format_string) -> an_object
 
+_Extras_
+<br>After the parsing method is completed, the unparsed attribute of the parser
+engine contains the un-processed portion of the input string. If no parsing
+has been performed, this is an empty string.
+
 #### Special entries
 The library has two special entries keyed by symbols instead of strings.
 These are

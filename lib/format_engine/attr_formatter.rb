@@ -1,4 +1,3 @@
-
 module FormatEngine
 
   # This module adds the \attr_formatter extension to a class.

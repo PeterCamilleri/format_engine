@@ -167,4 +167,18 @@ class ParserTester < Minitest::Test
 
   end
 
+  def test_for_the_unparsed
+    engine = make_parser
+    assert_equal("", engine.unparsed)
+
+    spec = "%f, %l %a"
+    result = engine.do_parse("Squidly, Jones 55 And much more!", TestPerson, spec)
+
+    assert_equal(TestPerson, result.class)
+    assert_equal("Squidly", result.first_name)
+    assert_equal("Jones", result.last_name)
+    assert_equal(" And much more!", engine.unparsed)
+
+  end
+
 end
