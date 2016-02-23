@@ -31,4 +31,19 @@ class FormatEngineTester < Minitest::Test
     assert_equal(21, cust.age)
   end
 
+  def test_some_fancy_footwork
+    cust = Customer.strprs("Wernher, von_Braun 104", "%f, %l %a")
+
+    assert_equal(Customer, cust.class)
+    assert_equal("Wernher", cust.first_name)
+    assert_equal("von Braun", cust.last_name)
+    assert_equal(104, cust.age)
+  end
+
+  def test_for_missing_data_detection
+    assert_raises { Customer.strprs("Jane, Doe twenty", "%f, %l %a") }
+    assert_raises { Customer.strprs("Jane", "%f, %l %a") }
+    assert_raises { Customer.strprs("Jane, 34", "%f, %a") }
+  end
+
 end
