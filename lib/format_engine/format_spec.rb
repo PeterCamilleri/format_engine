@@ -29,7 +29,7 @@ module FormatEngine
     #Scan the format string extracting literals and variables.
     def scan_spec(fmt_string)
       until fmt_string.empty?
-        if (match_data = REGEX.match(fmt_string))
+        if (match_data = PARSE_REGEX.match(fmt_string))
           mid = match_data.to_s
           pre = match_data.pre_match
 
