@@ -21,13 +21,62 @@ Or install it yourself as:
 
 ## Usage
 
-In general formatters and parsers are defined using the attr_formatter
-and attr_parser methods. Both of these methods accept a symbol and a hash of
-strings (plus a few special symbols) that point to blocks (that take no arguments).
+In general the format engine allows for the easy creation of formatters and
+parsers. This is done using the attr_formatter and attr_parser methods that
+work in a manner analogous to attr_reader etc for creating access to instance
+data.
 
-The symbol is the name of a method that is created. The hash forms a library
-of supported formats. Special hash keys are the symbols :before (that is run
-before all other operations) and :after (that is run after all other operations)
+#### attr_formatter
+
+Creates a data formatting facility for the specified class.
+
+_Prerequisites_
+<br>The class must 'extend FormatEngine::AttrFormatter'
+
+_Arguments_
+* method_symbol - the name of the formatter instance method created by this
+method
+* library - a hash mapping specifications to actions (lambda blocks)
+
+_Returns_
+<br>The formatting engine created for the formatter.
+
+_The created instance method_
+<br>This method creates an instance method that provides formatted text from
+an object. This takes the form:
+
+    an_object.method_name(format_string) -> a_formatted_string
+
+#### attr_parse
+
+Creates a data parsing facility for the specified class.
+
+_Prerequisites_
+<br>The class must 'extend FormatEngine::AttrParser'
+
+_Arguments_
+* method_symbol - the name of the parser class method created by this method.
+* library - a hash mapping specifications to actions (lambda blocks)
+
+_Returns_
+<br>The formatting engine created for the parser.
+
+_The created class method_
+<br>This method creates an class method that parses formatted text into a new
+instance of the class. This takes the form:
+
+    AClass.method_name(input_string, format_string) -> an_object
+
+#### Special entries
+The library has two special entries keyed by symbols instead of strings.
+These are
+
+* :before - references a block that is executed before the formatting or
+parsing process starts.
+* :after - references a block that is executed after the formatting or
+parsing process finishes.
+
+By default, both of these entries take no action.
 
 ### Example
 The following example is found in the mocks folder:
@@ -92,16 +141,17 @@ The parsing of format specification strings is based on the following regular
 expression. This expression is applied repeatedly until all the specifications
 have been extracted from the input string.
 
-    REGEX = %r{(?<lead>  (^|(?<=[^\\]))%){0}
-               (?<flags> [~@#$^&*=?_<>|!]*){0}
+    PARSE_REGEX =
+      %r{(?<lead>  (^|(?<=[^\\]))%){0}
+         (?<flags> [~@#$^&*=?_<>|!]*){0}
 
-               (?<var> \g<lead>\g<flags>[-+]?(\d+(\.\d+)?)?[a-zA-Z]){0}
-               (?<set> \g<lead>\g<flags>(\d+(,\d+)?)?\[([^\]\\]|\\.)+\]){0}
-               (?<rgx> \g<lead>\g<flags>\/([^\\ \/]|\\.)*\/([imx]*)){0}
-               (?<per> \g<lead>%){0}
+         (?<var> \g<lead>\g<flags>[-+]?(\d+(\.\d+)?)?[a-zA-Z]){0}
+         (?<set> \g<lead>\g<flags>(\d+(,\d+)?)?\[([^\]\\]|\\.)+\]){0}
+         (?<rgx> \g<lead>\g<flags>\/([^\\ \/]|\\.)*\/([imx]*)){0}
+         (?<per> \g<lead>%){0}
 
-               \g<var> | \g<set> | \g<rgx> | \g<per>
-              }x
+         \g<var> | \g<set> | \g<rgx> | \g<per>
+        }x
 
 ### Var
 A format specification of the classical form:
