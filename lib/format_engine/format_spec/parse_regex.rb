@@ -12,6 +12,6 @@ module FormatEngine
          (?<per> \g<lead>%){0}
          \g<var> | \g<set> | \g<rgx> | \g<per>
         }x
-   end
+  end
 
 end
