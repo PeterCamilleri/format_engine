@@ -141,7 +141,7 @@ puts cust.strfmt('%f %l is %a years old.')
 
 ## In the wild...
 
-An example of the format_engine in action can be seen in the ruby_sscanf
+An example of the format_engine in action can is the ruby_sscanf
 gem (https://github.com/PeterCamilleri/ruby_sscanf) where it is used to
 provide a facility for parsing strings and extracting data along with a
 generous helping of performance enhancement.
