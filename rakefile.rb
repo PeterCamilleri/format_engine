@@ -36,14 +36,7 @@ end
 
 desc "Run an IRB Session with format_engine loaded."
 task :console do
-  require 'irb'
-  require 'irb/completion'
-  require './lib/format_engine'
-  puts "Starting an IRB console with format_engine."
-  puts "Use 'quit' to exit."
-  puts
-  ARGV.clear
-  IRB.start
+  system "ruby irbt.rb local"
 end
 
 desc "What version of code is this?"
