@@ -44,5 +44,3 @@ task :vers do |t|
   puts
   puts "format_engine version = #{FormatEngine::VERSION}"
 end
-
-
