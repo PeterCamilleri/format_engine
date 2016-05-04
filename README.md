@@ -19,6 +19,8 @@ Or install it yourself as:
 
     $ gem install format_engine
 
+The format_engine gem itself is found at: ( https://rubygems.org/gems/format_engine )
+
 ## Usage
 
 In general the format engine allows for the easy creation of formatters and
