@@ -191,6 +191,8 @@ alternative to \\% which is preferred.
 
 ### Literal
 Text in between the various format specifications is treated as literal text.
+When formatting this literal text is output verbatim. When parsing, this text
+is expected in the input string.
 
 ###Format Internals:
 
