@@ -3,7 +3,6 @@
 
 require_relative 'lib/format_engine'
 
-$no_alias_read_line_module = true
 require 'mini_readline'
 require 'pp'
 
