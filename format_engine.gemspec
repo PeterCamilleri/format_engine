@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["peter.c.camilleri@gmail.com"]
   spec.summary       = %q{An engine for string formatting and parsing.}
   spec.description   = %q{An engine for string formatting and parsing like the strftime and strptime methods.}
-  spec.homepage      = "http://teuthida-technologies.com/"
+  spec.homepage      = "https://github.com/PeterCamilleri/format_engine"
   spec.license       = "MIT"
 
   raw_list           = `git ls-files`.split($/)
@@ -21,11 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 1.9.3'
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency 'minitest', "~> 5.5.1"
-  spec.add_development_dependency 'minitest_visible', ">= 0.1.1"
-  spec.add_development_dependency 'rdoc', "~> 4.0.1"
-  spec.add_development_dependency 'mini_readline', ">= 0.7.0"
+  spec.add_development_dependency "rake", "~> 12.0"
+  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency 'minitest', "~> 5.7"
+  spec.add_development_dependency 'minitest_visible', "~> 0.1"
+  spec.add_development_dependency 'rdoc', "~> 5.0"
 
 end

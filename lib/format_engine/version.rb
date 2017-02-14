@@ -1,5 +1,5 @@
 
 module FormatEngine
   # The version of the format_engine gem.
-  VERSION = "0.7.6"
+  VERSION = "0.7.7"
 end
