@@ -12,7 +12,7 @@ class EngineBaseTester < Minitest::Test
     test = FormatEngine::Engine.new({"%A" => 42})
 
     assert_equal(42, test["%A"])
-    assert_equal(nil, test["%B"])
+    assert_nil(test["%B"])
     assert(test[:before])
     assert(test[:after])
     assert_equal(3, test.library.length)

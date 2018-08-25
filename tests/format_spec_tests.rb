@@ -30,7 +30,7 @@ class FormatSpecTester < Minitest::Test
     assert_equal(1, test.specs.length)
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
     assert_equal("%A", test.specs[0].format)
-    assert_equal(nil, test.specs[0].parms)
+    assert_nil(test.specs[0].parms)
   end
 
   def test_that_it_scans_set_formats
@@ -81,14 +81,14 @@ class FormatSpecTester < Minitest::Test
 
     assert_equal(FormatEngine::FormatVariable, test.specs[0].class)
     assert_equal("%A", test.specs[0].format)
-    assert_equal(nil, test.specs[0].parms)
+    assert_nil(test.specs[0].parms)
 
     assert_equal(FormatEngine::FormatLiteral, test.specs[1].class)
     assert_equal("\t", test.specs[1].literal)
 
     assert_equal(FormatEngine::FormatVariable, test.specs[2].class)
     assert_equal("%B", test.specs[2].format)
-    assert_equal(nil, test.specs[2].parms)
+    assert_nil(test.specs[2].parms)
   end
 
   def test_that_it_scans_option_variable_formats
