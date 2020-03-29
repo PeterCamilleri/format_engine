@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = FormatEngine::VERSION
   spec.authors       = ["Peter Camilleri"]
   spec.email         = ["peter.c.camilleri@gmail.com"]
-  spec.summary       = %q{An engine for string formatting and parsing.}
-  spec.description   = %q{An engine for string formatting and parsing like the strftime and strptime methods.}
+  spec.summary       = %q{A meta-engine for creating string formatters and parsers.}
+  spec.description   = %q{A meta-engine for creating string formatters and parsers like the strftime and strptime methods.}
   spec.homepage      = "https://github.com/PeterCamilleri/format_engine"
   spec.license       = "MIT"
 
