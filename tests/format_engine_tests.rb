@@ -1,15 +1,11 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 require_relative '../mocks/demo'
 
 # A full test of the formatter/parser engine.
 class FormatEngineTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def test_that_engines_are_returned
     assert_equal(FormatEngine::Engine, Customer.formatter_engine.class)

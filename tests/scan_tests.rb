@@ -1,14 +1,9 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
-
 
 # Test the internals of the parser engine. This is not the normal interface.
 class ScanTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   DECIMAL  = /[+-]?\d+/
   HEX      = /[+-]?(0[xX])?\h+/

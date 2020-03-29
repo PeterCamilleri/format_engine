@@ -3,12 +3,8 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 class RgxSpecTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def test_the_parms
     test = FormatEngine::FormatRgx.new("%/ABC/")

@@ -1,15 +1,11 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 require_relative '../mocks/test_person_mock'
 
 # Test the internals of the parser engine. This is not the normal interface.
 class ParserTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def make_parser
     FormatEngine::Engine.new(

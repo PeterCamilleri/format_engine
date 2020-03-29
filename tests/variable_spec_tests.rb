@@ -1,12 +1,8 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 class VariableSpecTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def test_the_parms
     test = FormatEngine::FormatVariable.new("%B")

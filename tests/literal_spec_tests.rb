@@ -1,12 +1,8 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 class LiteralSpecTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def test_that_it_formats
     spec_info = FormatEngine::SpecInfo.new(nil, "", nil)

@@ -1,15 +1,11 @@
 require_relative '../lib/format_engine'
 gem              'minitest'
 require          'minitest/autorun'
-require          'minitest_visible'
 
 require_relative '../mocks/test_person_mock'
 
 # Test the internals of the formatter engine. This is not the normal interface.
 class FormatterTester < Minitest::Test
-
-  #Track mini-test progress.
-  include MinitestVisible
 
   def make_formatter
     FormatEngine::Engine.new(
